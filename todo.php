@@ -33,4 +33,7 @@
 // @todo Set minimum refresh time to 15 seconds
 // @todo Make strings/numbers safe from exposure
 // @todo Display short strings, hide long strings.
+// @todo Add Kill button
+// @todo Add login capability to enable kill button as well as editing hosts/groups.
+
 
