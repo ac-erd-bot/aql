@@ -31,4 +31,6 @@
 // @todo Create host editor
 // @todo Create group editor
 // @todo Set minimum refresh time to 15 seconds
+// @todo Make strings/numbers safe from exposure
+// @todo Display short strings, hide long strings.
 
