@@ -30,4 +30,5 @@
 // @todo Implement Host/Group Limiter
 // @todo Create host editor
 // @todo Create group editor
+// @todo Set minimum refresh time to 15 seconds
 
