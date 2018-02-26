@@ -221,7 +221,7 @@ JS
   ) ;
     $page->setBody( <<<HTML
 <h1>Active Queries List</h1>
-<form method=GET>
+<form method=POST>
   <table border=0 cellspacing="0" cellpadding="2" width="100%">
     <tr>
       <td>
