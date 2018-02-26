@@ -1,0 +1,9 @@
+<config>
+    <param name="baseUrl">http://localhost/aql/AJAXgetaql.php</param>
+    <param name="dbHost">127.0.0.1</param>
+    <param name="dbName">aql_db</param>
+    <param name="dbPort">3306</param>
+    <param name="dbUser">aql_app</param>
+    <param name="dbPass">SomethingComplicated</param>
+    <param name="timeZone">America/Chicago</param>
+</config>
