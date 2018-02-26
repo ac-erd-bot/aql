@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  *
  * aql - Active Query Listing
  *
@@ -106,7 +106,6 @@ function getChoices( $label, $name, $defaultValue ) {
     return( "<tr><td>$label</td><td>$yes</td><td>$no</td><td>$any</td></tr>" ) ;
 }
 
-$page = new WebPage( 'Active Queries List' ) ;
 $headerFooterRow = <<<HTML
 <tr>
       <th>Server</th>
@@ -122,7 +121,7 @@ $headerFooterRow = <<<HTML
     </tr>
 
 HTML;
-
+$page = new WebPage( 'Active Queries List' ) ;
 $reloadSeconds = 15 ;
 $limits = '' ;
 processParam( 'decommissioned'  , 'decommissioned'   , '0'  , $limits ) ;
@@ -134,13 +133,66 @@ $choices = getChoices( 'Monitored Hosts'        , 'shouldMonitor'   , '1'   )
          . getChoices( 'Backed-Up Hosts'        , 'shouldBackup'    , 'any' )
          . getChoices( 'Decommissioned Hosts'   , 'decommissioned'  , '0'   )
          ;
+$hostList = "Hosts" ;
+$groupList = "Groups" ;
 $page->setBody( <<<HTML
 <h1>Active Queries List</h1>
 <form method=GET>
-  <table border=0 cellspacing=0 cellpadding=2>
-    <tr><th>Limit To</th><th>Yes</th><th>No</th><th>Either</th></tr>
+  <table border=0 cellspacing="0" cellpadding="2" width="100%">
+    <tr>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="choices">
+          <tr><th>Limit To</th><th>Yes</th><th>No</th><th>Either</th></tr>
 $choices
-    <tr><td colspan=4><center><input type="submit" value="Redisplay with these choices" /></center></td></tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="andor1">
+          <tr>
+            <td><input type="radio" value="and" $andor1and /> And</td>
+          </tr>
+          <tr>
+            <td><input type="radio" value="and" $andor1or /> Or</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="hostlist">
+          <tr>
+            <td>$hostList</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="andor2">
+          <tr>
+            <td><input type="radio" value="and" $andor2and /> And</td>
+          </tr>
+          <tr>
+            <td><input type="radio" value="and" $andor2or /> Or</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="grouplist">
+          <tr>
+            <td>$groupList</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="grouplist">
+          <tr>
+            <td>
+              Refresh Every
+              <input type="text" size="5" width="5" value="$reloadSeconds" />
+              Seconds
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr><td colspan=5><center><input type="submit" value="Redisplay with these choices" /></center></td></tr>
   </table>
 </form>
 
@@ -154,7 +206,7 @@ $choices
   </tfoot>
 </table>
 <p />
-<table border=1 cellspacing=0 cellpadding=2 id="legend">
+<table border=1 cellspacing=0 cellpadding=2 id="legend" width="100%">
   <caption>Legend</caption>
   <tr><th>Level</th><th>Description</th></tr>
   <tr class="error" ><td>-</td><td>An error has occurred while communicating with the host described.</td></tr>

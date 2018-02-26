@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  *
  * aql - Active Query Listing
  *
