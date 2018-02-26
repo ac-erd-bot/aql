@@ -192,11 +192,11 @@ $choices
         </table>
       </td>
     </tr>
-    <tr><td colspan=5><center><input type="submit" value="Redisplay with these choices" /></center></td></tr>
+    <tr><td colspan="6"><center><input type="submit" value="Redisplay with these choices" /></center></td></tr>
   </table>
 </form>
 
-<table border=1 cellspacing=0 cellpadding=2 id="dataTable">
+<table border=1 cellspacing=0 cellpadding=2 id="dataTable" width="100%">
   <thead>
     $headerFooterRow
   </thead>
