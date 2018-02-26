@@ -122,7 +122,7 @@ $headerFooterRow = <<<HTML
 
 HTML;
 $page = new WebPage( 'Active Queries List' ) ;
-$reloadSeconds = 15 ;
+$reloadSeconds = 60 ;
 $limits = '' ;
 processParam( 'decommissioned'  , 'decommissioned'   , '0'  , $limits ) ;
 processParam( 'revenueImpacting', 'revenue_impacting', '1'  , $limits ) ;
@@ -133,92 +133,6 @@ $choices = getChoices( 'Monitored Hosts'        , 'shouldMonitor'   , '1'   )
          . getChoices( 'Backed-Up Hosts'        , 'shouldBackup'    , 'any' )
          . getChoices( 'Decommissioned Hosts'   , 'decommissioned'  , '0'   )
          ;
-$hostList = "Hosts" ;
-$groupList = "Groups" ;
-$page->setBody( <<<HTML
-<h1>Active Queries List</h1>
-<form method=GET>
-  <table border=0 cellspacing="0" cellpadding="2" width="100%">
-    <tr>
-      <td>
-        <table border=0 cellspacing="0" cellpadding="2" id="choices">
-          <tr><th>Limit To</th><th>Yes</th><th>No</th><th>Either</th></tr>
-$choices
-        </table>
-      </td>
-      <td>
-        <table border=0 cellspacing="0" cellpadding="2" id="andor1">
-          <tr>
-            <td><input type="radio" value="and" $andor1and /> And</td>
-          </tr>
-          <tr>
-            <td><input type="radio" value="and" $andor1or /> Or</td>
-          </tr>
-        </table>
-      </td>
-      <td>
-        <table border=0 cellspacing="0" cellpadding="2" id="hostlist">
-          <tr>
-            <td>$hostList</td>
-          </tr>
-        </table>
-      </td>
-      <td>
-        <table border=0 cellspacing="0" cellpadding="2" id="andor2">
-          <tr>
-            <td><input type="radio" value="and" $andor2and /> And</td>
-          </tr>
-          <tr>
-            <td><input type="radio" value="and" $andor2or /> Or</td>
-          </tr>
-        </table>
-      </td>
-      <td>
-        <table border=0 cellspacing="0" cellpadding="2" id="grouplist">
-          <tr>
-            <td>$groupList</td>
-          </tr>
-        </table>
-      </td>
-      <td>
-        <table border=0 cellspacing="0" cellpadding="2" id="grouplist">
-          <tr>
-            <td>
-              Refresh Every
-              <input type="text" size="5" width="5" value="$reloadSeconds" />
-              Seconds
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-    <tr><td colspan="6"><center><input type="submit" value="Redisplay with these choices" /></center></td></tr>
-  </table>
-</form>
-
-<table border=1 cellspacing=0 cellpadding=2 id="dataTable" width="100%">
-  <thead>
-    $headerFooterRow
-  </thead>
-  <tbody id="tbodyid"><tr id="figment"><td colspan="10"><center>Data loading</center></td></tr></tbody>
-  <tfoot>
-    $headerFooterRow
-  </tfoot>
-</table>
-<p />
-<table border=1 cellspacing=0 cellpadding=2 id="legend" width="100%">
-  <caption>Legend</caption>
-  <tr><th>Level</th><th>Description</th></tr>
-  <tr class="error" ><td>-</td><td>An error has occurred while communicating with the host described.</td></tr>
-  <tr class="level4"><td>4</td><td>The shown query has reached a critical alert level and should be investigated.</td></tr>
-  <tr class="level3"><td>3</td><td>The shown query has reached a warning alert level.</td></tr>
-  <tr class="level2"><td>2</td><td>The shown query is running longer than expected.</td></tr>
-  <tr class="level1"><td>1</td><td>The shown query is running within normal time parameters.</td></tr>
-  <tr class="level0"><td>0</td><td>The shown query has run for less time than expected so far.</td></tr>
-</table>
-
-HTML
-  ) ;
 try {
     $js[ 'Blocks'         ] = 0 ;
     $js[ 'WhenBlock'      ] = '' ;
@@ -237,8 +151,11 @@ SELECT hostname
  WHERE 1 = 1 $limits
  
 SQL;
+    $hostList = '' ;
     $result = $dbh->query( $hostQuery ) ;
     while ( $row = $result->fetch_row() ) {
+        $serverName = htmlentities( $row[ 0 ] ) ;
+        $hostList .= "<option value=\"$serverName\">$serverName</option>" ;
         processHost( $js
                    , $row[ 0 ]
                    , $config->getBaseUrl()
@@ -247,6 +164,13 @@ SQL;
                    , $row[ 3 ]
                    , $row[ 4 ]
                    ) ;
+    }
+    $groupList = '<option value="all">All</option>' ;
+    $groupQuery = 'SELECT tag FROM aql_db.host_group' ;
+    $result = $dbh->query( $groupQuery ) ;
+    while ( $row = $result->fetch_row() ) {
+        $groupName = $row[ 0 ] ;
+        $groupList .= "<option value=\"$groupName\">$groupName</option>" ;
     }
     $whenBlock      = $js[ 'WhenBlock'  ] ;
     $thenParamBlock = $js[ 'ThenParamBlock' ] ;
@@ -295,6 +219,96 @@ setInterval(loadPage, $reloadSeconds*1000);
 
 JS
   ) ;
+    $page->setBody( <<<HTML
+<h1>Active Queries List</h1>
+<form method=GET>
+  <table border=0 cellspacing="0" cellpadding="2" width="100%">
+    <tr>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="choices">
+          <tr><th>Limit To</th><th>Yes</th><th>No</th><th>Either</th></tr>
+$choices
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="andor1">
+          <tr>
+            <td><input type="radio" value="and" $andor1and /> And</td>
+          </tr>
+          <tr>
+            <td><input type="radio" value="and" $andor1or /> Or</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="hostlist">
+          <tr>
+            <th>Hosts</th>
+          </tr>
+          <tr>
+                <td><select size="7" name="hosts" multiple="multiple">$hostList</select></td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="andor2">
+          <tr>
+            <td><input type="radio" value="and" $andor2and /> And</td>
+          </tr>
+          <tr>
+            <td><input type="radio" value="and" $andor2or /> Or</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="grouplist">
+          <tr>
+            <th>Groups</th>
+          </tr>
+          <tr>
+                <td><select size="7" name="groups" multiple="multiple">$groupList</select></td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table border=0 cellspacing="0" cellpadding="2" id="grouplist">
+          <tr>
+            <td>
+              Refresh Every
+              <input type="text" size="5" width="5" value="$reloadSeconds" />
+              Seconds
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr><td colspan="6"><center><input type="submit" value="Redisplay with these choices" /></center></td></tr>
+  </table>
+</form>
+        
+<table border=1 cellspacing=0 cellpadding=2 id="dataTable" width="100%">
+  <thead>
+    $headerFooterRow
+  </thead>
+  <tbody id="tbodyid"><tr id="figment"><td colspan="10"><center>Data loading</center></td></tr></tbody>
+  <tfoot>
+    $headerFooterRow
+  </tfoot>
+</table>
+<p />
+<table border=1 cellspacing=0 cellpadding=2 id="legend" width="100%">
+  <caption>Legend</caption>
+  <tr><th>Level</th><th>Description</th></tr>
+  <tr class="error" ><td>-</td><td>An error has occurred while communicating with the host described.</td></tr>
+  <tr class="level4"><td>4</td><td>The shown query has reached a critical alert level and should be investigated.</td></tr>
+  <tr class="level3"><td>3</td><td>The shown query has reached a warning alert level.</td></tr>
+  <tr class="level2"><td>2</td><td>The shown query is running longer than expected.</td></tr>
+  <tr class="level1"><td>1</td><td>The shown query is running within normal time parameters.</td></tr>
+  <tr class="level0"><td>0</td><td>The shown query has run for less time than expected so far.</td></tr>
+</table>
+        
+HTML
+      ) ;
 }
 catch ( DaoException $e ) {
     $page->appendBody( "<pre>Error interacting with the database\n\n"

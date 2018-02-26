@@ -104,6 +104,15 @@ CREATE TABLE host_group (
 , UNIQUE ux_tag ( tag )
 ) ENGINE=InnoDB ;
 
+INSERT host_group
+VALUES ( 1
+       , 'localhost'
+       , 'localhost'
+       , 'localhost in all forms'
+       , NULL
+       , NULL
+     ) ;
+
 CREATE TABLE host_group_map (
   host_group_id INT UNSIGNED NOT NULL
 , host_id       INT UNSIGNED NOT NULL
@@ -118,5 +127,17 @@ CREATE TABLE host_group_map (
                                  ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB COMMENT='Many-many relationship of groups and host' ;
 
-SELECT * FROM host \G
+INSERT host_group_map
+VALUES ( 1
+       , 1
+       , NULL
+       , NULL
+       , NULL
+       )
+     , ( 1
+       , 2
+       , NULL
+       , NULL
+       , NULL
+       ) ;
 
