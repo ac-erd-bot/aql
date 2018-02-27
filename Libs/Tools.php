@@ -49,6 +49,18 @@ class Tools {
     }
 
     /**
+     * Return the values from $_REQUEST[ $key ] if available or the default value.
+     * If not specified, the default value is an empty array.
+     *
+     * @param string $key
+     * @param array $default
+     * @return mixed
+     */
+    public static function params( $key, $default = [] ) {
+        return( isset( $key ) && isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default ) ;
+    }
+    
+    /**
      * Return the value from $_POST[ $key ] if available or the default value.
      * If not specified, the default value is an empty string.
      *
@@ -60,6 +72,18 @@ class Tools {
         return ( isset( $key ) && ( isset( $_POST[ $key ] ) ) ) ? $_POST[ $key ] : $default ;
     }
 
+    /**
+     * Return the values from $_POST[ $key ] if available or the default value.
+     * If not specified, the default value is an empty array.
+     *
+     * @param string $key
+     * @param array $default
+     * @return mixed
+     */
+    public static function posts( $key, $default = [] ) {
+        return( isset( $key ) && isset( $_POST[ $key ] ) ? $_POST[ $key ] : $default ) ;
+    }
+    
     /**
      * Display a table cell but put a non-blank space in it if it's empty or
      * null. Typically, this helps get around empty boxes without lines in

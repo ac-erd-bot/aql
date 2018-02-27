@@ -119,6 +119,19 @@ function processAndOr( $name, $value, &$result ) {
     }
 }
 
+/**
+ * Process individual values of the SELECT/OPTION list
+ *
+ * @param string $label
+ * @param string $value
+ * @param mixed  &$list
+ */
+function processSelectOption( $name, $label, $value, &$list ) {
+    $exists = in_array( $value, Tools::params( $name ) ) ;
+    $checked = ( $exists ) ? 'checked="checked"' : '' ;
+    $list .= "<option value=\"$value\" $checked>$label</option>" ;
+}
+
 $headerFooterRow = <<<HTML
 <tr>
       <th>Server</th>
@@ -153,15 +166,11 @@ processAndOr( 'andOr1', 'or' , $andOr1or  ) ;
 processAndOr( 'andOr2', 'and', $andOr2and ) ;
 processAndOr( 'andOr2', 'or' , $andOr2or  ) ;
 
-try {
-    $js[ 'Blocks'         ] = 0 ;
-    $js[ 'WhenBlock'      ] = '' ;
-    $js[ 'ThenParamBlock' ] = '' ;
-    $js[ 'ThenCodeBlock'  ] = '' ;
-    $config                 = new Config() ;
-    $dbc                    = new DBConnection() ;
-    $dbh                    = $dbc->getConnection() ;
-    $hostQuery = <<<SQL
+$js[ 'Blocks'         ] = 0 ;
+$js[ 'WhenBlock'      ] = '' ;
+$js[ 'ThenParamBlock' ] = '' ;
+$js[ 'ThenCodeBlock'  ] = '' ;
+$hostQuery = <<<SQL
 SELECT hostname
      , alert_crit_secs
      , alert_warn_secs
@@ -171,7 +180,12 @@ SELECT hostname
  WHERE 1 = 1 $limits
  
 SQL;
-    $hostList = '' ;
+$groupQuery = 'SELECT tag FROM aql_db.host_group' ;
+$hostList = $groupList = '' ;
+try {
+    $config                 = new Config() ;
+    $dbc                    = new DBConnection() ;
+    $dbh                    = $dbc->getConnection() ;
     $result = $dbh->query( $hostQuery ) ;
     while ( $row = $result->fetch_row() ) {
         $serverName = htmlentities( $row[ 0 ] ) ;
@@ -185,12 +199,11 @@ SQL;
                    , $row[ 4 ]
                    ) ;
     }
-    $groupList = '<option value="all">All</option>' ;
-    $groupQuery = 'SELECT tag FROM aql_db.host_group' ;
     $result = $dbh->query( $groupQuery ) ;
+    processSelectOption( 'groups', 'All', 'All', $groupList ) ;
     while ( $row = $result->fetch_row() ) {
         $groupName = $row[ 0 ] ;
-        $groupList .= "<option value=\"$groupName\">$groupName</option>" ;
+        processSelectOption( 'groups', $groupName, $groupName, $groupList ) ;
     }
     $whenBlock      = $js[ 'WhenBlock'  ] ;
     $thenParamBlock = $js[ 'ThenParamBlock' ] ;
@@ -266,7 +279,7 @@ $choices
             <th>Hosts</th>
           </tr>
           <tr>
-                <td><select size="7" name="hosts" multiple="multiple">$hostList</select></td>
+                <td><select size="7" name="hosts[]" multiple="multiple">$hostList</select></td>
           </tr>
         </table>
       </td>
@@ -286,7 +299,7 @@ $choices
             <th>Groups</th>
           </tr>
           <tr>
-                <td><select size="7" name="groups" multiple="multiple">$groupList</select></td>
+                <td><select size="7" name="groups[]" multiple="multiple">$groupList</select></td>
           </tr>
         </table>
       </td>
