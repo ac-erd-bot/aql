@@ -106,6 +106,19 @@ function getChoices( $label, $name, $defaultValue ) {
     return( "<tr><td>$label</td><td>$yes</td><td>$no</td><td>$any</td></tr>" ) ;
 }
 
+/**
+ * Process the and/or radios
+ * 
+ * @param string $name
+ * @param string $value
+ * @param string &$result
+ */
+function processAndOr( $name, $value, &$result ) {
+    if ( Tools::param( $name ) === $value ) {
+        $result = 'checked="checked"' ;
+    }
+}
+
 $headerFooterRow = <<<HTML
 <tr>
       <th>Server</th>
@@ -133,6 +146,13 @@ $choices = getChoices( 'Monitored Hosts'        , 'shouldMonitor'   , '1'   )
          . getChoices( 'Backed-Up Hosts'        , 'shouldBackup'    , 'any' )
          . getChoices( 'Decommissioned Hosts'   , 'decommissioned'  , '0'   )
          ;
+$andOr1And = $andOr2Or = 'checked="checked"' ;
+$andOr1Or = $andOr2And = null ;
+processAndOr( 'andOr1', 'and', $andOr1and ) ;
+processAndOr( 'andOr1', 'or' , $andOr1or  ) ;
+processAndOr( 'andOr2', 'and', $andOr2and ) ;
+processAndOr( 'andOr2', 'or' , $andOr2or  ) ;
+
 try {
     $js[ 'Blocks'         ] = 0 ;
     $js[ 'WhenBlock'      ] = '' ;
@@ -233,10 +253,10 @@ $choices
       <td>
         <table border=0 cellspacing="0" cellpadding="2" id="andor1">
           <tr>
-            <td><input type="radio" value="and" $andor1and /> And</td>
+            <td><input type="radio" name="andor1" value="and" $andOr1And /> And</td>
           </tr>
           <tr>
-            <td><input type="radio" value="and" $andor1or /> Or</td>
+            <td><input type="radio" name="andor1" value="or" $andOr1Or /> Or</td>
           </tr>
         </table>
       </td>
@@ -253,10 +273,10 @@ $choices
       <td>
         <table border=0 cellspacing="0" cellpadding="2" id="andor2">
           <tr>
-            <td><input type="radio" value="and" $andor2and /> And</td>
+            <td><input type="radio" name="andor2" value="and" $andOr2And /> And</td>
           </tr>
           <tr>
-            <td><input type="radio" value="and" $andor2or /> Or</td>
+            <td><input type="radio" name="andor2" value="or" $andOr2Or /> Or</td>
           </tr>
         </table>
       </td>
