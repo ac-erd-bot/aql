@@ -71,7 +71,8 @@ SQL;
         $outputItem[ 'db'      ] = $row[ 3 ] ;
         $outputItem[ 'command' ] = $row[ 4 ] ;
         $outputItem[ 'state'   ] = $row[ 6 ] ;
-        $outputItem[ 'info'    ] = $row[ 7 ] ;
+        $outputItem[ 'info'    ] = Tools::makeQuotedStringPIISafe( $row[ 7 ] ) ;
+        $outputItem[ 'actions' ] = "<button type=\"button\">Kill Thread</button> <button type=\"button\">File Issue</button>" ;
         $outputList[] = $outputItem ;
     }
 }

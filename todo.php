@@ -35,5 +35,5 @@
 // @todo Display short strings, hide long strings.
 // @todo Add Kill button
 // @todo Add login capability to enable kill button as well as editing hosts/groups.
-
-
+// @todo Detect duplicate and similar queries per-host
+// @todo Detect queries that are blocked by other threads and display.

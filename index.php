@@ -144,6 +144,7 @@ $headerFooterRow = <<<HTML
       <th>Time</th>
       <th>State</th>
       <th>Info</th>
+      <th>Actions</th>
     </tr>
 
 HTML;
@@ -159,8 +160,8 @@ $choices = getChoices( 'Monitored Hosts'        , 'shouldMonitor'   , '1'   )
          . getChoices( 'Backed-Up Hosts'        , 'shouldBackup'    , 'any' )
          . getChoices( 'Decommissioned Hosts'   , 'decommissioned'  , '0'   )
          ;
-$andOr1And = $andOr2Or = 'checked="checked"' ;
-$andOr1Or = $andOr2And = null ;
+$andOr1Or = $andOr2Or = 'checked="checked"' ;
+$andOr1And = $andOr2And = null ;
 processAndOr( 'andOr1', 'and', $andOr1and ) ;
 processAndOr( 'andOr1', 'or' , $andOr1or  ) ;
 processAndOr( 'andOr2', 'and', $andOr2and ) ;
@@ -225,19 +226,20 @@ function myCallback( i, item ) {
                      + "</td><td>" + item['result'][0]['time']
                      + "</td><td>" + item['result'][0]['state']
                      + "</td><td>" + item['result'][0]['info']
+                     + "</td><td>" + item['result'][0]['actions']
                      + "</td></tr>") ;
         myRow.appendTo( "#tbodyid" ) ;
     }
     else if ( typeof item[ 'error_output' ] !== 'undefined' ) {
         var myRow = $("<tr class=\"error\"><td>" + item['hostname']
-                     + "</td><td colspan=\"9\"><center>" + item['error_output']
+                     + "</td><td colspan=\"10\"><center>" + item['error_output']
                      + "</center></td></tr>") ;
         myRow.prependTo( "#tbodyid" ) ;
     }
 }
 
 function loadPage() {
-    \$("#tbodyid").html( '<tr id="figment"><td colspan="10"><center>Data loading</center></td></tr>' ) ;
+    \$("#tbodyid").html( '<tr id="figment"><td colspan="11"><center>Data loading</center></td></tr>' ) ;
     \$.when($whenBlock).then(
         function ( $thenParamBlock ) {
             $thenCodeBlock
@@ -311,6 +313,10 @@ $choices
               <input type="text" size="5" width="5" value="$reloadSeconds" />
               Seconds
             </td>
+          </tr>
+          <td>
+            <center><button type="button">Pause Refresh</button></center>
+          </td>
           </tr>
         </table>
       </td>
