@@ -26,6 +26,10 @@ require_once( 'Libs/autoload.php' ) ;
 
 header( 'Content-type: application/json' ) ;
 header( 'Access-Control-Allow-Origin: *' ) ;
+header( 'Expires: Thu, 01 Mar 2018 00:00:00 GMT' ) ;
+header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0' ) ;
+header( 'Cache-Control: post-check=0, pre-check=0', false ) ;
+header( 'Pragma: no-cache' ) ;
 
 try {
     $hostname      = Tools::param( 'hostname' ) ;
