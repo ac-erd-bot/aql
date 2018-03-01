@@ -57,7 +57,14 @@ SQL;
     $outputList = [] ;
     $result = $dbh->query( $processQuery ) ;
     while ( $row = $result->fetch_row() ) {
-        $time = $row[ 5 ] ;
+        $pid     = $row[ 0 ] ;
+        $uid     = $row[ 1 ] ;
+        $host    = $row[ 2 ] ;
+        $db      = $row[ 3 ] ;
+        $command = $row[ 4 ] ;
+        $time    = $row[ 5 ] ;
+        $state   = $row[ 6 ] ;
+        $safeInfo = Tools::makeQuotedStringPIISafe( $row[ 7 ] ) ;
         switch (true) {
             case $time >= $alertCritSecs: $level = 4 ; break ;
             case $time >= $alertWarnSecs: $level = 3 ; break ;
@@ -69,14 +76,15 @@ SQL;
         $outputItem[ 'level'   ] = $level ;
         $outputItem[ 'time'    ] = $time ;
         $outputItem[ 'server'  ] = $hostname ;
-        $outputItem[ 'id'      ] = $row[ 0 ] ;
-        $outputItem[ 'user'    ] = $row[ 1 ] ;
-        $outputItem[ 'host'    ] = $row[ 2 ] ;
-        $outputItem[ 'db'      ] = $row[ 3 ] ;
-        $outputItem[ 'command' ] = $row[ 4 ] ;
-        $outputItem[ 'state'   ] = $row[ 6 ] ;
-        $outputItem[ 'info'    ] = Tools::makeQuotedStringPIISafe( $row[ 7 ] ) ;
-        $outputItem[ 'actions' ] = "<button type=\"button\">Kill Thread</button> <button type=\"button\">File Issue</button>" ;
+        $outputItem[ 'id'      ] = $pid ;
+        $outputItem[ 'user'    ] = $uid ;
+        $outputItem[ 'host'    ] = $host ;
+        $outputItem[ 'db'      ] = $db ;
+        $outputItem[ 'command' ] = $command ;
+        $outputItem[ 'state'   ] = $state ;
+        $outputItem[ 'info'    ] = $safeInfo ;
+        $outputItem[ 'actions' ] = "<button type=\"button\" onclick=\"killProcOnHost( '$hostname', $pid ) ; return false ;\">Kill Thread</button>"
+                                 . "<button type=\"button\" onclick=\"fileIssue( '$hostname', $time, '$safeInfo' ) ; return false ;\">File Issue</button>" ;
         $outputList[] = $outputItem ;
     }
 }

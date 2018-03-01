@@ -55,3 +55,15 @@ th {
   background-color: #eee ;
 }
 
+.comment {
+	margin: 2px;
+	background-color: #f0f0f0;
+}
+a.morelink {
+	text-decoration:none;
+	outline: none;
+}
+.morecontent span {
+	display: none;
+
+}

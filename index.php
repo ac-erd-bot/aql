@@ -213,6 +213,10 @@ try {
 <script>
 
 function myCallback( i, item ) {
+    var showChar = 20 ;
+    var ellipsestext = "..." ;
+    var moretext = "more" ;
+    var lesstext = "less" ;
     if ( typeof item[ 'result' ] !== 'undefined' ) {
         var level = item['result'][0]['level'] ;
         var myRow = $("<tr class=\"level" + level + "\"><td>"
@@ -225,7 +229,7 @@ function myCallback( i, item ) {
                      + "</td><td>" + item['result'][0]['command']
                      + "</td><td>" + item['result'][0]['time']
                      + "</td><td>" + item['result'][0]['state']
-                     + "</td><td>" + item['result'][0]['info']
+                     + "</td><td class=\"comment more\">" + item['result'][0]['info']
                      + "</td><td>" + item['result'][0]['actions']
                      + "</td></tr>") ;
         myRow.appendTo( "#tbodyid" ) ;
@@ -236,6 +240,34 @@ function myCallback( i, item ) {
                      + "</center></td></tr>") ;
         myRow.prependTo( "#tbodyid" ) ;
     }
+    \$('.more').each(function() {
+        var content = \$(this).html() ;
+
+        if ( content.length > showChar ) {
+
+            var c = content.substr(0, showChar) ;
+            var h = content.substr(showChar-1, content.length - showChar) ;
+
+            var html = c + '<span class="moreelipses">'+ellipsestext+'</span>&nbsp;<span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">'+moretext+'</a></span>' ;
+
+            \$(this).html(html) ;
+        }
+
+    } ) ;
+
+    \$(".morelink").click( function() {
+        if ( \$(this).hasClass( "less" ) ) {
+            \$(this).removeClass( "less" );
+            \$(this).html( moretext ) ;
+        }
+        else {
+            \$(this).addClass( "less" ) ;
+            \$(this).html( lesstext ) ;
+        }
+        \$(this).parent().prev().toggle() ;
+        \$(this).prev().toggle() ;
+        return false ;
+    } ) ;
 }
 
 function loadPage() {
@@ -249,7 +281,7 @@ function loadPage() {
 }
 
 \$(document).ready( loadPage );
-setInterval(loadPage, $reloadSeconds*1000);
+setInterval( loadPage, $reloadSeconds * 1000 );
 </script>
 
 JS
