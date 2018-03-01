@@ -149,7 +149,7 @@ $headerFooterRow = <<<HTML
 
 HTML;
 $page = new WebPage( 'Active Queries List' ) ;
-$reloadSeconds = 60 ;
+$reloadSeconds = 600 ;
 $limits = '' ;
 processParam( 'decommissioned'  , 'decommissioned'   , '0'  , $limits ) ;
 processParam( 'revenueImpacting', 'revenue_impacting', '1'  , $limits ) ;
@@ -213,24 +213,27 @@ try {
 <script>
 
 function myCallback( i, item ) {
-    var showChar = 20 ;
-    var ellipsestext = "..." ;
-    var moretext = "more" ;
-    var lesstext = "less" ;
+    var showChar = 40 ;
     if ( typeof item[ 'result' ] !== 'undefined' ) {
-        var level = item['result'][0]['level'] ;
+        var level = item[ 'result' ][0][ 'level' ] ;
+        var info  = item[ 'result' ][0][ 'info' ] ;
+        if ( info.length > showChar + 8 ) {
+            var first = info.substr( 0, showChar ) ;
+            var last  = info.substr( showChar - 1, info.length - showChar + 1 ) ;
+            info      = first + '<span class="moreelipses">...</span>&nbsp;<span class="morecontent"><span>' + last + '</span>&nbsp;&nbsp;<a href="" class="morelink">more</a></span>' ;
+        }
         var myRow = $("<tr class=\"level" + level + "\"><td>"
                      + item['result'][0]['server']
                      + "</td><td>" + level
-                     + "</td><td>" + item['result'][0]['id']
-                     + "</td><td>" + item['result'][0]['user']
-                     + "</td><td>" + item['result'][0]['host']
-                     + "</td><td>" + item['result'][0]['db']
-                     + "</td><td>" + item['result'][0]['command']
-                     + "</td><td>" + item['result'][0]['time']
-                     + "</td><td>" + item['result'][0]['state']
-                     + "</td><td class=\"comment more\">" + item['result'][0]['info']
-                     + "</td><td>" + item['result'][0]['actions']
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'id' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'user' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'host' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'db' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'command' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'time' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'state' ]
+                     + "</td><td class=\"comment more\">" + info
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'actions' ]
                      + "</td></tr>") ;
         myRow.appendTo( "#tbodyid" ) ;
     }
@@ -240,29 +243,14 @@ function myCallback( i, item ) {
                      + "</center></td></tr>") ;
         myRow.prependTo( "#tbodyid" ) ;
     }
-    \$('.more').each(function() {
-        var content = \$(this).html() ;
-
-        if ( content.length > showChar ) {
-
-            var c = content.substr(0, showChar) ;
-            var h = content.substr(showChar-1, content.length - showChar) ;
-
-            var html = c + '<span class="moreelipses">'+ellipsestext+'</span>&nbsp;<span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">'+moretext+'</a></span>' ;
-
-            \$(this).html(html) ;
-        }
-
-    } ) ;
-
     \$(".morelink").click( function() {
         if ( \$(this).hasClass( "less" ) ) {
             \$(this).removeClass( "less" );
-            \$(this).html( moretext ) ;
+            \$(this).html( "more" ) ;
         }
         else {
             \$(this).addClass( "less" ) ;
-            \$(this).html( lesstext ) ;
+            \$(this).html( "less" ) ;
         }
         \$(this).parent().prev().toggle() ;
         \$(this).prev().toggle() ;
