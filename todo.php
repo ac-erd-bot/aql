@@ -22,18 +22,15 @@
  *
  */
 
-// @todo Hosts listing
-// @todo Groups listing
-// @todo Sort results table
-// @todo Implement refresh setting
-// @todo Make it possible to suspend refreshes
-// @todo Implement Host/Group Limiter
-// @todo Create host editor
-// @todo Create group editor
-// @todo Set minimum refresh time to 15 seconds
-// @todo Make strings/numbers safe from exposure
-// @todo Add Kill button
-// @todo Add login capability to enable kill button as well as editing hosts/groups.
-// @todo Detect duplicate and similar queries per-host
-// @todo Detect queries that are blocked by other threads and display.
-// @todo Move most (or all) of the js out of index.php
+// @todo 01 Set minimum refresh time to 15 seconds
+// @todo 02 Implement Host/Group Limiter
+// @todo 03 Sort results table
+// @todo 04 Implement refresh setting
+// @todo 05 Make it possible to suspend refreshes
+// @todo 07 Move most (or all) of the js out of index.php
+// @todo 10 Create host editor
+// @todo 15 Create group editor
+// @todo 20 Implement Kill button
+// @todo 20 Add login capability to enable kill button as well as editing hosts/groups.
+// @todo 30 Detect duplicate and similar queries per-host
+// @todo 40 Detect queries that are blocked by other threads and display.
