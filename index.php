@@ -212,6 +212,20 @@ try {
     $page->setBottom( <<<JS
 <script>
 
+function flipFlop() {
+    if ( \$(this).hasClass( "less" ) ) {
+        \$(this).removeClass( "less" );
+        \$(this).html( "more" ) ;
+    }
+    else {
+        \$(this).addClass( "less" ) ;
+        \$(this).html( "less" ) ;
+    }
+    \$(this).parent().prev().toggle() ;
+    \$(this).prev().toggle() ;
+    return false ;
+}
+
 function myCallback( i, item ) {
     var showChar = 40 ;
     if ( typeof item[ 'result' ] !== 'undefined' ) {
@@ -220,42 +234,30 @@ function myCallback( i, item ) {
         if ( info.length > showChar + 8 ) {
             var first = info.substr( 0, showChar ) ;
             var last  = info.substr( showChar - 1, info.length - showChar + 1 ) ;
-            info      = first + '<span class="moreelipses">...</span>&nbsp;<span class="morecontent"><span>' + last + '</span>&nbsp;&nbsp;<a href="" class="morelink">more</a></span>' ;
+            info      = first + '<span class="moreelipses">...</span>&nbsp;<span class="morecontent"><span>' + last + '</span>&nbsp;&nbsp;<a href="" class="morelink" onclick="flipFlop(); return false;">more</a></span>' ;
         }
         var myRow = $("<tr class=\"level" + level + "\"><td>"
                      + item['result'][0]['server']
                      + "</td><td>" + level
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'id' ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'user' ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'host' ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'db' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'id'      ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'user'    ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'host'    ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'db'      ]
                      + "</td><td>" + item[ 'result' ][ 0 ][ 'command' ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'time' ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'state' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'time'    ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'state'   ]
                      + "</td><td class=\"comment more\">" + info
                      + "</td><td>" + item[ 'result' ][ 0 ][ 'actions' ]
                      + "</td></tr>") ;
         myRow.appendTo( "#tbodyid" ) ;
     }
     else if ( typeof item[ 'error_output' ] !== 'undefined' ) {
-        var myRow = $("<tr class=\"error\"><td>" + item['hostname']
-                     + "</td><td colspan=\"10\"><center>" + item['error_output']
+        var myRow = $("<tr class=\"error\"><td>" + item[ 'hostname' ]
+                     + "</td><td colspan=\"10\"><center>" + item[ 'error_output' ]
                      + "</center></td></tr>") ;
         myRow.prependTo( "#tbodyid" ) ;
     }
-    \$(".morelink").click( function() {
-        if ( \$(this).hasClass( "less" ) ) {
-            \$(this).removeClass( "less" );
-            \$(this).html( "more" ) ;
-        }
-        else {
-            \$(this).addClass( "less" ) ;
-            \$(this).html( "less" ) ;
-        }
-        \$(this).parent().prev().toggle() ;
-        \$(this).prev().toggle() ;
-        return false ;
-    } ) ;
+    /* \$(".morelink").click( flipFlop ) ; */
 }
 
 function loadPage() {
@@ -268,8 +270,8 @@ function loadPage() {
     );
 }
 
-\$(document).ready( loadPage );
-setInterval( loadPage, $reloadSeconds * 1000 );
+\$(document).ready( loadPage ) ;
+setInterval( loadPage, $reloadSeconds * 1000 ) ;
 </script>
 
 JS
