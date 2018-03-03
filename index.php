@@ -268,7 +268,6 @@ function loadPage() {
         }
     );
     \$('#tbodyid').on('click', '.morelink', flipFlop) ;
-    /*    \$(".morelink").click( flipFlop ) ; */
 }
 
 \$(document).ready( loadPage ) ;
