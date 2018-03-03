@@ -227,14 +227,14 @@ function flipFlop() {
 }
 
 function myCallback( i, item ) {
-    var showChar = 40 ;
+    var showChars = 40 ;
     if ( typeof item[ 'result' ] !== 'undefined' ) {
         var level = item[ 'result' ][0][ 'level' ] ;
         var info  = item[ 'result' ][0][ 'info' ] ;
-        if ( info.length > showChar + 8 ) {
-            var first = info.substr( 0, showChar ) ;
-            var last  = info.substr( showChar - 1, info.length - showChar + 1 ) ;
-            info      = first + '<span class="moreelipses">...</span>&nbsp;<span class="morecontent"><span>' + last + '</span>&nbsp;&nbsp;<a href="" class="morelink" onclick="flipFlop(); return false;">more</a></span>' ;
+        if ( info.length > showChars + 8 ) {
+            var first = info.substr( 0, showChars ) ;
+            var last  = info.substr( showChars - 1, info.length - showChars + 1 ) ;
+            info      = first + '<span class="moreelipses">...</span>&nbsp;<span class="morecontent"><span>' + last + '</span>&nbsp;&nbsp;<a href="" class="morelink">more</a></span>' ;
         }
         var myRow = $("<tr class=\"level" + level + "\"><td>"
                      + item['result'][0]['server']
@@ -257,7 +257,6 @@ function myCallback( i, item ) {
                      + "</center></td></tr>") ;
         myRow.prependTo( "#tbodyid" ) ;
     }
-    /* \$(".morelink").click( flipFlop ) ; */
 }
 
 function loadPage() {
@@ -268,6 +267,8 @@ function loadPage() {
             \$("#figment").remove() ;
         }
     );
+    \$('#tbodyid').on('click', '.morelink', flipFlop) ;
+    /*    \$(".morelink").click( flipFlop ) ; */
 }
 
 \$(document).ready( loadPage ) ;
