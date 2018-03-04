@@ -6,4 +6,6 @@
     <param name="dbUser">aql_app</param>
     <param name="dbPass">SomethingComplicated</param>
     <param name="timeZone">America/Chicago</param>
+    <param name="minRefresh">15</param>
+    <param name="defaultRefresh">60</param>
 </config>

@@ -148,9 +148,14 @@ $headerFooterRow = <<<HTML
     </tr>
 
 HTML;
-$page = new WebPage( 'Active Queries List' ) ;
-$reloadSeconds = 600 ;
-$limits = '' ;
+$page                   = new WebPage( 'Active Queries List' ) ;
+$config                 = new Config() ;
+$reloadSeconds          = $config->getDefaultRefresh() ;
+$limits                 = '' ;
+$js[ 'Blocks'         ] = 0 ;
+$js[ 'WhenBlock'      ] = '' ;
+$js[ 'ThenParamBlock' ] = '' ;
+$js[ 'ThenCodeBlock'  ] = '' ;
 processParam( 'decommissioned'  , 'decommissioned'   , '0'  , $limits ) ;
 processParam( 'revenueImpacting', 'revenue_impacting', '1'  , $limits ) ;
 processParam( 'shouldMonitor'   , 'should_monitor'   , '1'  , $limits ) ;
@@ -166,11 +171,9 @@ processAndOr( 'andOr1', 'and', $andOr1and ) ;
 processAndOr( 'andOr1', 'or' , $andOr1or  ) ;
 processAndOr( 'andOr2', 'and', $andOr2and ) ;
 processAndOr( 'andOr2', 'or' , $andOr2or  ) ;
-
-$js[ 'Blocks'         ] = 0 ;
-$js[ 'WhenBlock'      ] = '' ;
-$js[ 'ThenParamBlock' ] = '' ;
-$js[ 'ThenCodeBlock'  ] = '' ;
+$andOr1 = ( 'checked="checked"' === $andOr1Or ) ? "OR" : "AND" ;
+$andOr2 = ( 'checked="checked"' === $andOr2Or ) ? "OR" : "AND" ;
+$limits .= " $andOr1 hostname IN ( '" . implode( Tools::params( 'hosts' ), "', '" ). "' )" ;
 $hostQuery = <<<SQL
 SELECT hostname
      , alert_crit_secs
@@ -212,53 +215,6 @@ try {
     $page->setBottom( <<<JS
 <script>
 
-function flipFlop() {
-    if ( \$(this).hasClass( "less" ) ) {
-        \$(this).removeClass( "less" );
-        \$(this).html( "more" ) ;
-    }
-    else {
-        \$(this).addClass( "less" ) ;
-        \$(this).html( "less" ) ;
-    }
-    \$(this).parent().prev().toggle() ;
-    \$(this).prev().toggle() ;
-    return false ;
-}
-
-function myCallback( i, item ) {
-    var showChars = 40 ;
-    if ( typeof item[ 'result' ] !== 'undefined' ) {
-        var level = item[ 'result' ][0][ 'level' ] ;
-        var info  = item[ 'result' ][0][ 'info' ] ;
-        if ( info.length > showChars + 8 ) {
-            var first = info.substr( 0, showChars ) ;
-            var last  = info.substr( showChars - 1, info.length - showChars + 1 ) ;
-            info      = first + '<span class="moreelipses">...</span>&nbsp;<span class="morecontent"><span>' + last + '</span>&nbsp;&nbsp;<a href="" class="morelink">more</a></span>' ;
-        }
-        var myRow = $("<tr class=\"level" + level + "\"><td>"
-                     + item['result'][0]['server']
-                     + "</td><td>" + level
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'id'      ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'user'    ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'host'    ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'db'      ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'command' ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'time'    ]
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'state'   ]
-                     + "</td><td class=\"comment more\">" + info
-                     + "</td><td>" + item[ 'result' ][ 0 ][ 'actions' ]
-                     + "</td></tr>") ;
-        myRow.appendTo( "#tbodyid" ) ;
-    }
-    else if ( typeof item[ 'error_output' ] !== 'undefined' ) {
-        var myRow = $("<tr class=\"error\"><td>" + item[ 'hostname' ]
-                     + "</td><td colspan=\"10\"><center>" + item[ 'error_output' ]
-                     + "</center></td></tr>") ;
-        myRow.prependTo( "#tbodyid" ) ;
-    }
-}
-
 function loadPage() {
     \$("#tbodyid").html( '<tr id="figment"><td colspan="11"><center>Data loading</center></td></tr>' ) ;
     \$.when($whenBlock).then(
@@ -278,7 +234,7 @@ JS
   ) ;
     $page->setBody( <<<HTML
 <h1>Active Queries List</h1>
-<form method=POST>
+<form method=GET>
   <table border=0 cellspacing="0" cellpadding="2" width="100%">
     <tr>
       <td>

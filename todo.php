@@ -22,12 +22,11 @@
  *
  */
 
-// @todo 01 Set minimum refresh time to 15 seconds
-// @todo 02 Implement Host/Group Limiter
-// @todo 03 Sort results table
+// @todo 01 Implement Host/Group Limiter
+// @todo 02 Sort results table
+// @todo 03 Set minimum refresh time to 15 seconds
 // @todo 04 Implement refresh setting
 // @todo 05 Make it possible to suspend refreshes
-// @todo 07 Move most (or all) of the js out of index.php
 // @todo 10 Create host editor
 // @todo 15 Create group editor
 // @todo 20 Implement Kill button

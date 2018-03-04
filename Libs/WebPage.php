@@ -52,8 +52,8 @@ class WebPage {
   <link rel="stylesheet" href="css/main.css" />
   <!-- <link rel="stylesheet" href="//code.jquery.com/ui/latest/themes/smoothness/jquery-ui.css" /> -->
   <!-- <script src="//code.jquery.com/ui/latest/jquery-ui.js"></script> -->
-  <!-- <script src="js/common.js"></script> -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="js/common.js"></script>
 
 HTML
                       ) ;

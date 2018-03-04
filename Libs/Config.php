@@ -59,6 +59,13 @@ class Config {
     private $_timeZone = NULL ;
     /**#@-*/
 
+    /**#@+
+     * @var int
+     */
+    private $_minRefresh     = NULL ;
+    private $_defaultRefresh = NULL ;
+    /**#@-*/
+
     /**
      * Class Constructor
      *
@@ -84,7 +91,7 @@ class Config {
             throw new Exception( "Invalid syntax in config.xml!" ) ;
         }
         $errors = "" ;
-        $cfgValues = array() ;
+        $cfgValues = array( 'minRefresh' => 15, 'defaultRefresh' => 60 ) ;
         $paramList = array( 'dbHost'   => array( 'isRequired' => 1, 'value' => 0 )
                           , 'dbPass'   => array( 'isRequired' => 1, 'value' => 0 )
                           , 'dbName'   => array( 'isRequired' => 1, 'value' => 0 )
@@ -92,6 +99,8 @@ class Config {
                           , 'dbUser'   => array( 'isRequired' => 1, 'value' => 0 )
                           , 'baseUrl'  => array( 'isRequired' => 1, 'value' => 0 )
                           , 'timeZone' => array( 'isRequired' => 1, 'value' => 0 )
+                          , 'minRefresh' => array( 'isRequired' => 0, 'value' => 0 )
+                          , 'defaultRefresh' => array( 'isRequired' => 0, 'value' => 0 )
                           ) ;
         // verify that all the parameters are present and just once.
         foreach ( $xml as $v ) {
@@ -103,7 +112,14 @@ class Config {
             }
             else {
                 $paramList[ $key ][ 'value' ] ++ ;
-                $cfgValues[ $key ] = ( string ) $v ;
+                switch ( $key ) {
+                    case 'minRefresh' :
+                    case 'defaultRefresh' :
+                        $cfgValues[ $key ] = ( int ) $v ;
+                        break ;
+                    default :
+                        $cfgValues[ $key ] = ( string ) $v ;
+                }
             }
         }
         foreach ( $paramList as $key => $x ) {
@@ -120,6 +136,9 @@ class Config {
         $this->_dbName  = ( ! isset( $dbName ) ) ? $cfgValues[ 'dbName' ] : $dbName ;
         $this->_dbUser  = ( ! isset( $dbUser ) ) ? $cfgValues[ 'dbUser' ] : $dbUser ;
         $this->_dbPass  = ( ! isset( $dbPass ) ) ? $cfgValues[ 'dbPass' ] : $dbPass ;
+        $this->_minRefresh     = $cfgValues[ 'minRefresh' ] ;
+        $this->_defaultRefresh = $cfgValues[ 'defaultRefresh' ] ;
+        $this->_timeZone       = $cfgValues[ 'timeZone' ] ;
         ini_set( 'date.timezone', $this->_timeZone ) ;
     }
 
@@ -193,6 +212,24 @@ class Config {
      */
     public function getTimeZone() {
         return $this->_timeZone ;
+    }
+
+    /**
+     * Getter
+     * 
+     * @return int
+     */
+    public function getMinRefresh() {
+        return $this->_minRefresh ;
+    }
+
+    /**
+     * Getter
+     * 
+     * @return int
+     */
+    public function getDefaultRefresh() {
+        return $this->_defaultRefresh ;
     }
 
     /**

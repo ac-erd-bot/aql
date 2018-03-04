@@ -148,3 +148,61 @@ function deleteRow( rowId ) {
     row.parentNode.removeChild( row ) ;
     return false ;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+function flipFlop() {
+    if ( $(this).hasClass( "less" ) ) {
+        $(this).removeClass( "less" );
+        $(this).html( "more" ) ;
+    }
+    else {
+        $(this).addClass( "less" ) ;
+        $(this).html( "less" ) ;
+    }
+    $(this).parent().prev().toggle() ;
+    $(this).prev().toggle() ;
+    return false ;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+function myCallback( i, item ) {
+    var showChars = 40 ;
+    if ( typeof item[ 'result' ] !== 'undefined' ) {
+        var level = item[ 'result' ][0][ 'level' ] ;
+        var info  = item[ 'result' ][0][ 'info' ] ;
+        if ( info.length > showChars + 8 ) {
+            var first = info.substr( 0, showChars ) ;
+            var last  = info.substr( showChars - 1, info.length - showChars + 1 ) ;
+            info      = first
+                      + '<span class="moreelipses">...</span>&nbsp;'
+                      + '<span class="morecontent"><span>'
+                      + last
+                      + '</span>&nbsp;&nbsp;<a href="" class="morelink">'
+                      + 'more</a></span>' ;
+        }
+        var myRow = $("<tr class=\"level" + level + "\"><td>"
+                     + item['result'][0]['server']
+                     + "</td><td>" + level
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'id'      ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'user'    ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'host'    ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'db'      ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'command' ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'time'    ]
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'state'   ]
+                     + "</td><td class=\"comment more\">" + info
+                     + "</td><td>" + item[ 'result' ][ 0 ][ 'actions' ]
+                     + "</td></tr>") ;
+        myRow.appendTo( "#tbodyid" ) ;
+    }
+    else if ( typeof item[ 'error_output' ] !== 'undefined' ) {
+        var myRow = $("<tr class=\"error\"><td>" + item[ 'hostname' ]
+                     + "</td><td colspan=\"10\"><center>" + item[ 'error_output' ]
+                     + "</center></td></tr>") ;
+        myRow.prependTo( "#tbodyid" ) ;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
