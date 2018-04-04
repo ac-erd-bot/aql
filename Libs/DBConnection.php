@@ -109,7 +109,7 @@ class DBConnection
                 break;
             case 'PDO':
                 // May throw PDOException by itself.
-                $this->_dbh = new PDO($oConfig->get_dsn(), $oConfig->getDbPass());
+                $this->_dbh = new PDO($oConfig->getDsn(), $oConfig->getDbPass());
                 if (! $this->_dbh) {
                     throw new DaoException('Error connecting to database server(' . $oConfig->getDbHost() . ')!');
                 }
