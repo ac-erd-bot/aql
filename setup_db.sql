@@ -49,48 +49,48 @@ CREATE TABLE host (
 ) ENGINE=InnoDB ;
 
 INSERT host
-VALUES ( 1             -- id
-       , 'localhost'   -- hostname
-       , 'This host'   -- description
-       , 1             -- should_monitor
-       , 1             -- should_backup
-       , 1             -- revenue_impacting
-       , 0             -- decommissioned
-       , 10            -- alert_crit_secs
-       , 5             -- alert_warn_secs
-       , 2             -- alert_info_secs
-       , -1            -- alert_low_secs
-       , NULL          -- created
-       , NULL          -- updated
-       , NULL          -- last_audited
-    ), ( 2             -- id
-       , '127.0.0.1'   -- hostname
-       , 'localhostx2' -- description
-       , 1             -- should_monitor
-       , 1             -- should_backup
-       , 1             -- revenue_impacting
-       , 0             -- decommissioned
-       , 10            -- alert_crit_secs
-       , 5             -- alert_warn_secs
-       , 2             -- alert_info_secs
-       , -1            -- alert_low_secs
-       , NULL          -- created
-       , NULL          -- updated
-       , NULL          -- last_audited
-     ), ( 3            -- id
-       , '192.168.9.9' -- hostname
-       , 'Bad host'    -- description
-       , 1             -- should_monitor
-       , 1             -- should_backup
-       , 1             -- revenue_impacting
-       , 0             -- decommissioned
-       , 10            -- alert_crit_secs
-       , 5             -- alert_warn_secs
-       , 2             -- alert_info_secs
-       , -1            -- alert_low_secs
-       , NULL          -- created
-       , NULL          -- updated
-       , NULL          -- last_audited
+VALUES ( 1                 -- id
+       , 'localhost'       -- hostname
+       , 'This host'       -- description
+       , 1                 -- should_monitor
+       , 1                 -- should_backup
+       , 1                 -- revenue_impacting
+       , 0                 -- decommissioned
+       , 10                -- alert_crit_secs
+       , 5                 -- alert_warn_secs
+       , 2                 -- alert_info_secs
+       , -1                -- alert_low_secs
+       , NULL              -- created
+       , NULL              -- updated
+       , NULL              -- last_audited
+    ), ( 2                 -- id
+       , '127.0.0.1'       -- hostname
+       , 'localhostx2'     -- description
+       , 1                 -- should_monitor
+       , 1                 -- should_backup
+       , 1                 -- revenue_impacting
+       , 0                 -- decommissioned
+       , 10                -- alert_crit_secs
+       , 5                 -- alert_warn_secs
+       , 2                 -- alert_info_secs
+       , -1                -- alert_low_secs
+       , NULL              -- created
+       , NULL              -- updated
+       , NULL              -- last_audited
+     ), ( 3                -- id
+       , '192.168.256.256' -- hostname
+       , 'Bad host'        -- description
+       , 1                 -- should_monitor
+       , 1                 -- should_backup
+       , 1                 -- revenue_impacting
+       , 0                 -- decommissioned
+       , 10                -- alert_crit_secs
+       , 5                 -- alert_warn_secs
+       , 2                 -- alert_info_secs
+       , -1                -- alert_low_secs
+       , NULL              -- created
+       , NULL              -- updated
+       , NULL              -- last_audited
      ) ;
 
 CREATE TABLE host_group (
@@ -105,13 +105,13 @@ CREATE TABLE host_group (
 ) ENGINE=InnoDB ;
 
 INSERT host_group
-VALUES ( 1
-       , 'localhost'
-       , 'localhost'
-       , 'localhost in all forms'
-       , NULL
-       , NULL
-     ) ;
+VALUES ( 1, 'localhost', 'localhost', 'localhost in all forms', NULL, NULL )
+     , ( 2, 'prod'     , 'prod'     , 'Production'            , NULL, NULL )
+     , ( 3, 'pilot'    , 'pilot'    , 'Pilot'                 , NULL, NULL )
+     , ( 4, 'stage'    , 'stage'    , 'Staging'               , NULL, NULL )
+     , ( 5, 'qa'       , 'qa'       , 'QA'                    , NULL, NULL )
+     , ( 6, 'dev'      , 'dev'      , 'Development'           , NULL, NULL )
+     ;
 
 CREATE TABLE host_group_map (
   host_group_id INT UNSIGNED NOT NULL
@@ -128,16 +128,5 @@ CREATE TABLE host_group_map (
 ) ENGINE=InnoDB COMMENT='Many-many relationship of groups and host' ;
 
 INSERT host_group_map
-VALUES ( 1
-       , 1
-       , NULL
-       , NULL
-       , NULL
-       )
-     , ( 1
-       , 2
-       , NULL
-       , NULL
-       , NULL
-       ) ;
-
+VALUES ( 1, 1, NULL, NULL, NULL )
+     , ( 1, 2, NULL, NULL, NULL ) ;
