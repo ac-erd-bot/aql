@@ -11,7 +11,7 @@
 --
 -- This program is distributed in the hope that it will be useful,
 -- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 -- GNU General Public License for more details.
 --
 -- You should have received a copy of the GNU General Public License along
@@ -20,6 +20,7 @@
 --
 
 -- Script to drop and create aql_db
+
 -- WARNING - using this script will wipe out any existing data in
 -- aql_db so make sure you take a backup first if it's needed.
 
@@ -28,25 +29,25 @@ CREATE DATABASE aql_db ;
 USE aql_db ;
 
 CREATE TABLE host (
-  host_id           INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
-, hostname          VARCHAR( 64 ) NOT NULL
-, description       TEXT NULL DEFAULT NULL
-, should_monitor    BOOLEAN NOT NULL DEFAULT 1
-, should_backup     BOOLEAN NOT NULL DEFAULT 1
-, revenue_impacting BOOLEAN NOT NULL DEFAULT 1
-, decommissioned    BOOLEAN NOT NULL DEFAULT 0
-, alert_crit_secs   INT NOT NULL DEFAULT 0
-, alert_warn_secs   INT NOT NULL DEFAULT 0
-, alert_info_secs   INT NOT NULL DEFAULT 0
-, alert_low_secs    INT NOT NULL DEFAULT -1
-, created           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-, updated           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-                      ON UPDATE CURRENT_TIMESTAMP
-, last_audited      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-, KEY idx_hostname ( hostname )
-, KEY idx_should_monitor ( should_monitor, decommissioned )
-, KEY idx_decommissioned ( decommissioned )
-) ENGINE=InnoDB ;
+       host_id           INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+     , hostname          VARCHAR( 64 ) NOT NULL
+     , description       TEXT NULL DEFAULT NULL
+     , should_monitor    BOOLEAN NOT NULL DEFAULT 1
+     , should_backup     BOOLEAN NOT NULL DEFAULT 1
+     , revenue_impacting BOOLEAN NOT NULL DEFAULT 1
+     , decommissioned    BOOLEAN NOT NULL DEFAULT 0
+     , alert_crit_secs   INT NOT NULL DEFAULT 0
+     , alert_warn_secs   INT NOT NULL DEFAULT 0
+     , alert_info_secs   INT NOT NULL DEFAULT 0
+     , alert_low_secs    INT NOT NULL DEFAULT -1
+     , created           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+     , updated           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                           ON UPDATE CURRENT_TIMESTAMP
+     , last_audited      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+     , KEY idx_hostname ( hostname )
+     , KEY idx_should_monitor ( should_monitor, decommissioned )
+     , KEY idx_decommissioned ( decommissioned )
+     ) ENGINE=InnoDB ;
 
 INSERT host
 VALUES ( 1                 -- id
@@ -77,7 +78,7 @@ VALUES ( 1                 -- id
        , NULL              -- created
        , NULL              -- updated
        , NULL              -- last_audited
-     ), ( 3                -- id
+    ), ( 3                 -- id
        , '192.168.256.256' -- hostname
        , 'Bad host'        -- description
        , 1                 -- should_monitor
@@ -94,15 +95,15 @@ VALUES ( 1                 -- id
      ) ;
 
 CREATE TABLE host_group (
-  host_group_id     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
-, tag               VARCHAR( 16 ) NOT NULL DEFAULT ''
-, short_description VARCHAR( 255 ) NOT NULL DEFAULT ''
-, full_descripton   TEXT NULL DEFAULT NULL
-, created           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-, updated           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-                      ON UPDATE CURRENT_TIMESTAMP
-, UNIQUE ux_tag ( tag )
-) ENGINE=InnoDB ;
+       host_group_id     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+     , tag               VARCHAR( 16 ) NOT NULL DEFAULT ''
+     , short_description VARCHAR( 255 ) NOT NULL DEFAULT ''
+     , full_descripton   TEXT NULL DEFAULT NULL
+     , created           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+     , updated           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                           ON UPDATE CURRENT_TIMESTAMP
+     , UNIQUE ux_tag ( tag )
+     ) ENGINE=InnoDB ;
 
 INSERT host_group
 VALUES ( 1, 'localhost', 'localhost', 'localhost in all forms', NULL, NULL )
@@ -114,19 +115,21 @@ VALUES ( 1, 'localhost', 'localhost', 'localhost in all forms', NULL, NULL )
      ;
 
 CREATE TABLE host_group_map (
-  host_group_id INT UNSIGNED NOT NULL
-, host_id       INT UNSIGNED NOT NULL
-, created       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-, updated       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-                  ON UPDATE CURRENT_TIMESTAMP
-, last_audited  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-, PRIMARY KEY ux_host_group_host ( host_id, host_group_id )
-, FOREIGN KEY ( host_group_id ) REFERENCES host_group( host_group_id )
-                                  ON DELETE RESTRICT ON UPDATE RESTRICT
-, FOREIGN KEY ( host_id ) REFERENCES host( host_id )
-                                 ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB COMMENT='Many-many relationship of groups and host' ;
+       host_group_id INT UNSIGNED NOT NULL
+     , host_id       INT UNSIGNED NOT NULL
+     , created       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+     , updated       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                       ON UPDATE CURRENT_TIMESTAMP
+     , last_audited  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+     , PRIMARY KEY ux_host_group_host ( host_id, host_group_id )
+     , FOREIGN KEY ( host_group_id ) REFERENCES host_group( host_group_id )
+                                      ON DELETE RESTRICT ON UPDATE RESTRICT
+     , FOREIGN KEY ( host_id ) REFERENCES host( host_id )
+                                      ON DELETE RESTRICT ON UPDATE RESTRICT
+     ) ENGINE=InnoDB COMMENT='Many-many relationship of groups and host' ;
 
 INSERT host_group_map
 VALUES ( 1, 1, NULL, NULL, NULL )
-     , ( 1, 2, NULL, NULL, NULL ) ;
+     , ( 1, 2, NULL, NULL, NULL )
+     ;
+

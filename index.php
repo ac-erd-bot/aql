@@ -259,7 +259,7 @@ $choices
             <th>Hosts</th>
           </tr>
           <tr>
-                <td><select size="7" name="hosts[]" multiple="multiple">$hostList</select></td>
+            <td><select size="7" name="hosts[]" multiple="multiple">$hostList</select></td>
           </tr>
         </table>
       </td>
@@ -279,7 +279,7 @@ $choices
             <th>Groups</th>
           </tr>
           <tr>
-                <td><select size="7" name="groups[]" multiple="multiple">$groupList</select></td>
+            <td><select size="7" name="groups[]" multiple="multiple">$groupList</select></td>
           </tr>
         </table>
       </td>
