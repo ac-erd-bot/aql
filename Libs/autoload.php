@@ -22,12 +22,7 @@
  *
  */
 
-/**
- * Auto-load magic method
- *
- * @param string
- */
-function __autoload( $className ) {
+spl_autoload_register( function ( $className ) {
     switch ( true ) {
         case  ( preg_match( '/^ControllerBase$/', $className )
              || preg_match( '/Controller(|Interface)$/', $className )
@@ -70,4 +65,4 @@ function __autoload( $className ) {
         echo $e->getMessage() . "\n" ;
         exit( 1 ) ;
     }
-} // END OF function __autoload
+}) ; // END OF autoload function
