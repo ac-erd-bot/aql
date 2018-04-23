@@ -23,6 +23,7 @@
  */
 
 // @todo 01 Implement Host/Group Limiter
+// @todo 02 Protect code from SQL injection
 // @todo 02 Sort results table
 // @todo 03 Set minimum refresh time to 15 seconds
 // @todo 04 Implement refresh setting

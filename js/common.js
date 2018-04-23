@@ -21,6 +21,8 @@
  *
  */
 
+///////////////////////////////////////////////////////////////////////////////
+
 /**
  * Make sure that the passed value is valid for the proposed condition. If
  * isRequired is true, dateString must not be blank or null as well as being
@@ -62,6 +64,8 @@ function isDateValid( dateString, isRequired ) {
     }
     return ( retVal ) ;
 } 
+
+///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Make sure that the passed value is valid for the proposed condition. If
@@ -109,6 +113,8 @@ function isDateTimeValid( dateTimeString, isRequired ) {
     }
     return ( retVal ) ;
 }
+
+///////////////////////////////////////////////////////////////////////////////
 
 function isNumeric( n ) {
     return ! isNaN( parseFloat( n ) ) && isFinite( n ) ;
