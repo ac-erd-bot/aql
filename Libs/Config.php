@@ -22,6 +22,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 /**
  * Configuration for this tool set
  */
@@ -96,17 +98,17 @@ class Config
      *            $dbUser
      * @param
      *            $dbPass
-     * @throws Exception
+     * @throws \Exception
      * @SuppressWarnings indentation
      */
     public function __construct($dbHost = null, $dbPort = null, $dbName = null, $dbUser = null, $dbPass = null)
     {
         if (! is_readable('config.xml')) {
-            throw new Exception("Unable to load configuration from config.xml!");
+            throw new \Exception("Unable to load configuration from config.xml!");
         }
         $xml = simplexml_load_file('config.xml');
         if (! $xml) {
-            throw new Exception("Invalid syntax in config.xml!");
+            throw new \Exception("Invalid syntax in config.xml!");
         }
         $errors = "";
         $cfgValues = array(
@@ -174,7 +176,7 @@ class Config
             }
         }
         if ($errors !== '') {
-            throw new Exception("\nConfiguration problem!\n\n" . $errors . "\n");
+            throw new \Exception("\nConfiguration problem!\n\n" . $errors . "\n");
         }
         $this->_baseUrl = $cfgValues['baseUrl'];
         $this->_dbHost = (! isset($dbHost)) ? $cfgValues['dbHost'] : $dbHost;

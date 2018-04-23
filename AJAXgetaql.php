@@ -22,6 +22,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 require_once( 'Libs/autoload.php' ) ;
 
 header( 'Content-type: application/json' ) ;
@@ -88,7 +90,7 @@ SQL;
         $outputList[] = $outputItem ;
     }
 }
-catch ( Exception $e ) {
+catch ( \Exception $e ) {
     echo json_encode( array( 'hostname' => $hostname, 'error_output' => $e->getMessage() ) ) ;
     exit( 1 ) ;
 }

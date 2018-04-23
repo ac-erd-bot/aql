@@ -22,7 +22,10 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 spl_autoload_register( function ( $className ) {
+    $className = str_replace('com\\kbcmdba\\aql\\', '', $className);
     switch ( true ) {
         case  ( preg_match( '/^ControllerBase$/', $className )
              || preg_match( '/Controller(|Interface)$/', $className )
@@ -60,7 +63,7 @@ spl_autoload_register( function ( $className ) {
     try {
         require_once $reqFile ;
     }
-    catch ( Exception $e ) {
+    catch ( \Exception $e ) {
         echo 'class_file was ' . $className . ', req_file=' . $reqFile . "\n" ;
         echo $e->getMessage() . "\n" ;
         exit( 1 ) ;

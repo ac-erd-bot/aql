@@ -22,6 +22,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 // @todo 01 Implement Host/Group Limiter
 // @todo 02 Protect code from SQL injection
 // @todo 02 Sort results table

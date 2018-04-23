@@ -22,5 +22,7 @@
  *
  */
 
-class DaoException extends Exception {
+namespace com\kbcmdba\aql ;
+
+class DaoException extends \Exception {
 }

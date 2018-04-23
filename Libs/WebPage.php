@@ -22,6 +22,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 /**
  * Web Page
  */

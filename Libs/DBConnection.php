@@ -22,6 +22,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 /**
  * DBConnection
  */
@@ -48,7 +50,7 @@ class DBConnection
      * @param String $connClass
      *            Must be 'mysql', 'mysqli', or 'PDO' for now.
      * @return void
-     * @throws Exception
+     * @throws \Exception
      * @SuppressWarnings indentation
      * @SuppressWarnings cyclomaticComplexity
      */
@@ -60,7 +62,7 @@ class DBConnection
             case 'mysql':
                 $this->_dbh = mysql_connect($oConfig->getDbHost() . ':' . $oConfig->getDbPort(), $oConfig->getDbUser(), $oConfig->getDbPass());
                 if (! $this->_dbh) {
-                    throw new Exception('Error connecting to database server(' . $oConfig->getDbHost() . ')! : ' . mysql_error());
+                    throw new \Exception('Error connecting to database server(' . $oConfig->getDbHost() . ')! : ' . mysql_error());
                 }
                 $dbName = Tools::coalesce(array(
                     $oConfig->getDbName(),
@@ -68,7 +70,7 @@ class DBConnection
                 ));
                 if ($dbName !== '') {
                     if (! mysql_select_db($dbName, $this->_dbh)) {
-                        throw new Exception('Database does not exist: ', $dbName);
+                        throw new \Exception('Database does not exist: ', $dbName);
                     }
                 }
                 break;
@@ -81,10 +83,10 @@ class DBConnection
                     throw new DaoException('Failed setting connection timeout.');
                 }
                 try {
-                    set_error_handler("DBConnection::myErrorHandler");
+                    set_error_handler("\\com\\kbcmdba\\aql\\DBConnection::myErrorHandler");
                     $result = $mysqli->real_connect($oConfig->getDbHost(), $oConfig->getDbUser(), $oConfig->getDbPass(), null, $oConfig->getDbPort());
                     restore_error_handler();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     throw new DaoException($e->getMessage());
                 }
                 if ((! $result) || ($mysqli->connect_errno)) {
@@ -109,7 +111,7 @@ class DBConnection
                 break;
             case 'PDO':
                 // May throw PDOException by itself.
-                $this->_dbh = new PDO($oConfig->getDsn(), $oConfig->getDbPass());
+                $this->_dbh = new \PDO($oConfig->getDsn(), $oConfig->getDbPass());
                 if (! $this->_dbh) {
                     throw new DaoException('Error connecting to database server(' . $oConfig->getDbHost() . ')!');
                 }
@@ -143,12 +145,12 @@ class DBConnection
      * Give back the database handle
      *
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
     public function getConnection()
     {
         if ((! isset($this->_dbh)) || (! ($this->_dbh))) {
-            throw new Exception('Invalid connection!');
+            throw new \Exception('Invalid connection!');
         } else {
             return $this->_dbh;
         }

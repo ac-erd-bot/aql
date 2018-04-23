@@ -22,5 +22,7 @@
  *
  */
 
-class WebPageException extends Exception {
+namespace com\kbcmdba\aql ;
+
+class WebPageException extends \Exception {
 }

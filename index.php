@@ -21,6 +21,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
+
+namespace com\kbcmdba\aql ;
+
 require_once ('Libs/autoload.php');
 
 /**
