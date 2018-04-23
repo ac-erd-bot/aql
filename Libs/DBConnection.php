@@ -29,7 +29,6 @@ namespace com\kbcmdba\aql ;
  */
 class DBConnection
 {
-
     private $_dbh;
 
     private $_oConfig;
@@ -54,7 +53,7 @@ class DBConnection
      * @SuppressWarnings indentation
      * @SuppressWarnings cyclomaticComplexity
      */
-    public function __construct($connType = NULL, $dbHost = NULL, $dbName = NULL, $dbUser = NULL, $dbPass = NULL, $dbPort = NULL, $connClass = 'mysqli', $createDb = false)
+    public function __construct($connType = null, $dbHost = null, $dbName = null, $dbUser = null, $dbPass = null, $dbPort = null, $connClass = 'mysqli', $createDb = false)
     {
         $oConfig = new Config($dbHost, $dbPort, $dbName, $dbUser, $dbPass);
         $this->_oConfig = $oConfig;
@@ -64,10 +63,10 @@ class DBConnection
                 if (! $this->_dbh) {
                     throw new \Exception('Error connecting to database server(' . $oConfig->getDbHost() . ')! : ' . mysql_error());
                 }
-                $dbName = Tools::coalesce(array(
+                $dbName = Tools::coalesce([
                     $oConfig->getDbName(),
                     ''
-                ));
+                ]);
                 if ($dbName !== '') {
                     if (! mysql_select_db($dbName, $this->_dbh)) {
                         throw new \Exception('Database does not exist: ', $dbName);
@@ -175,4 +174,3 @@ class DBConnection
         return $this->_createdDb;
     }
 }
-

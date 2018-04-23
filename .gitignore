@@ -2,3 +2,4 @@ config.xml
 .settings
 .project
 .buildpath
+.php_cs.cache

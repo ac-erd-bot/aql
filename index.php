@@ -24,7 +24,7 @@
 
 namespace com\kbcmdba\aql ;
 
-require_once ('Libs/autoload.php');
+require_once('Libs/autoload.php');
 
 /**
  * Since parameters directly map to query options...
@@ -126,7 +126,7 @@ function processAndOr($name, $value, &$checked, &$result)
  */
 function processSelectOption($name, $label, $value, &$list)
 {
-    $exists = in_array($value, Tools::params($name));
+    $exists = in_array($value, Tools::params($name), true);
     $checked = ($exists) ? 'checked="checked"' : '';
     $list .= "<option value=\"$value\" $checked>$label</option>";
 }
@@ -215,7 +215,8 @@ try {
     $whenBlock = $js['WhenBlock'];
     $thenParamBlock = $js['ThenParamBlock'];
     $thenCodeBlock = $js['ThenCodeBlock'];
-    $page->setBottom(<<<JS
+    $page->setBottom(
+        <<<JS
 <script>
 
 function loadPage() {
@@ -235,7 +236,8 @@ setInterval( loadPage, $reloadSeconds * 1000 ) ;
 
 JS
 );
-    $page->setBody(<<<HTML
+    $page->setBody(
+        <<<HTML
 <h1>Active Queries List</h1>
 <form method=GET>
   <table border=0 cellspacing="0" cellpadding="2" width="100%">
@@ -330,9 +332,9 @@ $choices
         
 HTML
       ) ;
-}
-catch ( DaoException $e ) {
-    $page->appendBody( "<pre>Error interacting with the database\n\n"
+} catch (DaoException $e) {
+    $page->appendBody(
+        "<pre>Error interacting with the database\n\n"
                   . $e->getMessage() . "\n</pre>\n"
                   ) ;
 }

@@ -24,22 +24,22 @@
 
 namespace com\kbcmdba\aql ;
 
-require_once( 'Libs/autoload.php' ) ;
+require_once('Libs/autoload.php') ;
 
-header( 'Content-type: application/json' ) ;
-header( 'Access-Control-Allow-Origin: *' ) ;
-header( 'Expires: Thu, 01 Mar 2018 00:00:00 GMT' ) ;
-header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0' ) ;
-header( 'Cache-Control: post-check=0, pre-check=0', false ) ;
-header( 'Pragma: no-cache' ) ;
+header('Content-type: application/json') ;
+header('Access-Control-Allow-Origin: *') ;
+header('Expires: Thu, 01 Mar 2018 00:00:00 GMT') ;
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0') ;
+header('Cache-Control: post-check=0, pre-check=0', false) ;
+header('Pragma: no-cache') ;
 
 try {
-    $hostname      = Tools::param( 'hostname' ) ;
-    $alertCritSecs = Tools::param( 'alertCritSecs' ) ;
-    $alertWarnSecs = Tools::param( 'alertWarnSecs' ) ;
-    $alertInfoSecs = Tools::param( 'alertInfoSecs' ) ;
-    $alertLowSecs  = Tools::param( 'alertLowSecs' ) ;
-    $dbc           = new DBConnection( 'process', $hostname ) ;
+    $hostname      = Tools::param('hostname') ;
+    $alertCritSecs = Tools::param('alertCritSecs') ;
+    $alertWarnSecs = Tools::param('alertWarnSecs') ;
+    $alertInfoSecs = Tools::param('alertInfoSecs') ;
+    $alertLowSecs  = Tools::param('alertLowSecs') ;
+    $dbc           = new DBConnection('process', $hostname) ;
     $dbh           = $dbc->getConnection() ;
     $processQuery  = <<<SQL
 SELECT id
@@ -57,8 +57,8 @@ SELECT id
  
 SQL;
     $outputList = [] ;
-    $result = $dbh->query( $processQuery ) ;
-    while ( $row = $result->fetch_row() ) {
+    $result = $dbh->query($processQuery) ;
+    while ($row = $result->fetch_row()) {
         $pid     = $row[ 0 ] ;
         $uid     = $row[ 1 ] ;
         $host    = $row[ 2 ] ;
@@ -66,13 +66,13 @@ SQL;
         $command = $row[ 4 ] ;
         $time    = $row[ 5 ] ;
         $state   = $row[ 6 ] ;
-        $safeInfo = Tools::makeQuotedStringPIISafe( $row[ 7 ] ) ;
+        $safeInfo = Tools::makeQuotedStringPIISafe($row[ 7 ]) ;
         switch (true) {
             case $time >= $alertCritSecs: $level = 4 ; break ;
             case $time >= $alertWarnSecs: $level = 3 ; break ;
             case $time >= $alertInfoSecs: $level = 2 ; break ;
-            case $time <= $alertLowSecs : $level = 0 ; break ;
-            default                       : $level = 1 ;
+            case $time <= $alertLowSecs: $level = 0 ; break ;
+            default: $level = 1 ;
         }
         $outputItem = [] ;
         $outputItem[ 'level'   ] = $level ;
@@ -89,9 +89,8 @@ SQL;
                                  . "<button type=\"button\" onclick=\"fileIssue( '$hostname', $time, '$safeInfo' ) ; return false ;\">File Issue</button>" ;
         $outputList[] = $outputItem ;
     }
+} catch (\Exception $e) {
+    echo json_encode([ 'hostname' => $hostname, 'error_output' => $e->getMessage() ]) ;
+    exit(1) ;
 }
-catch ( \Exception $e ) {
-    echo json_encode( array( 'hostname' => $hostname, 'error_output' => $e->getMessage() ) ) ;
-    exit( 1 ) ;
-}
-echo json_encode( array( 'hostname' => $hostname, 'result' => $outputList ) ) . "\n" ;
+echo json_encode([ 'hostname' => $hostname, 'result' => $outputList ]) . "\n" ;

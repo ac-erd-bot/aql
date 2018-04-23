@@ -24,8 +24,8 @@
 /**
  * Host-Group-Map Model
  */
-class HostGroupMapModel extends ModelBase {
-
+class HostGroupMapModel extends ModelBase
+{
     private $_hostGroupId ;
     private $_hostId ;
     private $_created ;
@@ -35,7 +35,8 @@ class HostGroupMapModel extends ModelBase {
     /**
      * class constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct() ;
     }
 
@@ -44,14 +45,17 @@ class HostGroupMapModel extends ModelBase {
      *
      * @return boolean
      */
-    public function validateForAdd() {
-        return  ( ( ! Tools::isNullOrEmptyString( Tools::param( 'hostGroupId' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'hostGroupId' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'hostId' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'hostIdd' ) ) )
-               && (  ( Tools::isNullOrEmptyString( 'lastAudited' )
-                    || $this->validateDate( Tools::param( 'lastAudited' ) )
-                    || $this->validateTimestamp( Tools::param( 'lastAudited' ) )
+    public function validateForAdd()
+    {
+        return  ((! Tools::isNullOrEmptyString(Tools::param('hostGroupId')))
+               && (Tools::isNumeric(Tools::param('hostGroupId')))
+               && (! Tools::isNullOrEmptyString(Tools::param('hostId')))
+               && (Tools::isNumeric(Tools::param('hostIdd')))
+               && (
+                   (
+                   Tools::isNullOrEmptyString('lastAudited')
+                    || $this->validateDate(Tools::param('lastAudited'))
+                    || $this->validateTimestamp(Tools::param('lastAudited'))
                      )
                   )
                 ) ;
@@ -62,89 +66,100 @@ class HostGroupMapModel extends ModelBase {
      *
      * @return boolean
      */
-    public function validateForUpdate() {
+    public function validateForUpdate()
+    {
         return  $this->validateForAdd() ;
     }
 
     /**
      * Populate model from expected form data.
      */
-    public function populateFromForm() {
-        $this->setHostGroupId( Tools::param( 'hostGroupId' ) ) ;
-        $this->setHostId( Tools::param( 'hostId' ) ) ;
-        $this->setCreated( Tools::param( 'created' ) ) ;
-        $this->setUpdated( Tools::param( 'updated' ) ) ;
-        $this->setLastAudited( Tools::param( 'lastAudited' ) ) ;
+    public function populateFromForm()
+    {
+        $this->setHostGroupId(Tools::param('hostGroupId')) ;
+        $this->setHostId(Tools::param('hostId')) ;
+        $this->setCreated(Tools::param('created')) ;
+        $this->setUpdated(Tools::param('updated')) ;
+        $this->setLastAudited(Tools::param('lastAudited')) ;
     }
 
     /**
      * @return integer
      */
-    public function getHostGroupId() {
+    public function getHostGroupId()
+    {
         return $this->_hostGroupId ;
     }
 
     /**
      * @param integer $hostGroupId
      */
-    public function setHostGroupId( $hostGroupId ) {
+    public function setHostGroupId($hostGroupId)
+    {
         $this->_hostGroupId = $hostGroupId ;
     }
 
     /**
      * @return integer
      */
-    public function getHostId() {
+    public function getHostId()
+    {
         return $this->_hostId ;
     }
 
     /**
      * @param integer $hostId
      */
-    public function setHostId( $hostId ) {
+    public function setHostId($hostId)
+    {
         $this->_hostId = $hostId ;
     }
 
     /**
      * @return string
      */
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->_created ;
     }
 
     /**
      * @param string $_created
      */
-    public function setCreated( $created ) {
+    public function setCreated($created)
+    {
         $this->_created = $created ;
     }
 
     /**
      * @return string
      */
-    public function getUpdated() {
+    public function getUpdated()
+    {
         return $this->_updated ;
     }
 
     /**
      * @param string $_updated
      */
-    public function setUpdated( $updated ) {
+    public function setUpdated($updated)
+    {
         $this->_updated = $updated ;
     }
 
     /**
      * @return stringupdated
      */
-    public function getLastAudited() {
+    public function getLastAudited()
+    {
         return $this->_lastAudited ;
     }
 
     /**
      * @param string $_lastAudited
      */
-    public function setLastAudited( $lastAudited ) {
+    public function setLastAudited($lastAudited)
+    {
         $this->_lastAudited = $lastAudited ;
     }
-
 }

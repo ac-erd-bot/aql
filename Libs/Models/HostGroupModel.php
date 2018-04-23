@@ -24,8 +24,8 @@
 /**
  * Host-Group Model
  */
-class HostGroupModel extends ModelBase {
-
+class HostGroupModel extends ModelBase
+{
     private $_id ;
     private $_tag ;
     private $_shortDescription ;
@@ -36,7 +36,8 @@ class HostGroupModel extends ModelBase {
     /**
      * class constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct() ;
     }
 
@@ -45,9 +46,10 @@ class HostGroupModel extends ModelBase {
      *
      * @return boolean
      */
-    public function validateForAdd() {
-        return  ( (   Tools::isNullOrEmptyString( Tools::param( 'id' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'tag' ) ) )
+    public function validateForAdd()
+    {
+        return  ((Tools::isNullOrEmptyString(Tools::param('id')))
+               && (! Tools::isNullOrEmptyString(Tools::param('tag')))
                 ) ;
     }
 
@@ -56,107 +58,120 @@ class HostGroupModel extends ModelBase {
      *
      * @return boolean
      */
-    public function validateForUpdate() {
-        return  ( ( ! Tools::isNullOrEmptyString( Tools::param( 'id' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'id' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'tag' ) ) )
+    public function validateForUpdate()
+    {
+        return  ((! Tools::isNullOrEmptyString(Tools::param('id')))
+               && (Tools::isNumeric(Tools::param('id')))
+               && (! Tools::isNullOrEmptyString(Tools::param('tag')))
                 ) ;
     }
 
     /**
      * Populate model from expected form data.
      */
-    public function populateFromForm() {
-        $this->setId( Tools::param( 'id' ) ) ;
-        $this->setTag( Tools::param( 'tag' ) ) ;
-        $this->setShortDescription( Tools::param( 'shortDescription' ) ) ;
-        $this->setFullDescription( Tools::param( 'fullDescription' ) ) ;
-        $this->setCreated( Tools::param( 'created' ) ) ;
-        $this->setUpdated( Tools::param( 'updated' ) ) ;
+    public function populateFromForm()
+    {
+        $this->setId(Tools::param('id')) ;
+        $this->setTag(Tools::param('tag')) ;
+        $this->setShortDescription(Tools::param('shortDescription')) ;
+        $this->setFullDescription(Tools::param('fullDescription')) ;
+        $this->setCreated(Tools::param('created')) ;
+        $this->setUpdated(Tools::param('updated')) ;
     }
 
     /**
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->_id ;
     }
 
     /**
      * @param integer $id
      */
-    public function setId( $id ) {
+    public function setId($id)
+    {
         $this->_id = $id ;
     }
 
     /**
      * @return string
      */
-    public function getTag() {
+    public function getTag()
+    {
         return $this->_tag ;
     }
 
     /**
      * @param string $tag
      */
-    public function setTag( $tag ) {
+    public function setTag($tag)
+    {
         $this->_tag = $tag ;
     }
 
     /**
      * @return string
      */
-    public function getShortDescription() {
+    public function getShortDescription()
+    {
         return $this->_shortDescription ;
     }
 
     /**
      * @param string $fullDescription
      */
-    public function setFullDescription( $fullDescription ) {
+    public function setFullDescription($fullDescription)
+    {
         $this->_fullDescription = $fullDescription ;
     }
 
     /**
      * @return string
      */
-    public function getFullDescription() {
+    public function getFullDescription()
+    {
         return $this->_fullDescription ;
     }
 
     /**
      * @param string $fullDescription
      */
-    public function setFullDescription( $fullDescription ) {
+    public function setFullDescription($fullDescription)
+    {
         $this->_fullDescription = $fullDescription ;
     }
 
     /**
      * @return string
      */
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->_created ;
     }
 
     /**
      * @param string $_created
      */
-    public function setCreated( $created ) {
+    public function setCreated($created)
+    {
         $this->_created = $created ;
     }
 
     /**
      * @return string
      */
-    public function getUpdated() {
+    public function getUpdated()
+    {
         return $this->_updated ;
     }
 
     /**
      * @param string $_updated
      */
-    public function setUpdated( $updated ) {
+    public function setUpdated($updated)
+    {
         $this->_updated = $updated ;
     }
-    
 }

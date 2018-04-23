@@ -24,8 +24,8 @@
 /**
  * Host Model
  */
-class HostModel extends ModelBase {
-
+class HostModel extends ModelBase
+{
     private $_id ;
     private $_hostName ;
     private $_description ;
@@ -44,7 +44,8 @@ class HostModel extends ModelBase {
     /**
      * class constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct() ;
     }
 
@@ -53,17 +54,18 @@ class HostModel extends ModelBase {
      *
      * @return boolean
      */
-    public function validateForAdd() {
-        return  ( (   Tools::isNullOrEmptyString( Tools::param( 'id' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'hostName' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertCritSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertCritSecs' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertWarnSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertWarnSecs' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertInfoSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertInfoSecs' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertLowSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertLowSecs' ) ) )
+    public function validateForAdd()
+    {
+        return  ((Tools::isNullOrEmptyString(Tools::param('id')))
+               && (! Tools::isNullOrEmptyString(Tools::param('hostName')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertCritSecs')))
+               && (Tools::isNumeric(Tools::param('alertCritSecs')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertWarnSecs')))
+               && (Tools::isNumeric(Tools::param('alertWarnSecs')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertInfoSecs')))
+               && (Tools::isNumeric(Tools::param('alertInfoSecs')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertLowSecs')))
+               && (Tools::isNumeric(Tools::param('alertLowSecs')))
                 ) ;
     }
 
@@ -72,18 +74,19 @@ class HostModel extends ModelBase {
      *
      * @return boolean
      */
-    public function validateForUpdate() {
-        return  ( ( ! Tools::isNullOrEmptyString( Tools::param( 'id' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'id' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'hostName' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertCritSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertCritSecs' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertWarnSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertWarnSecs' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertInfoSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertInfoSecs' ) ) )
-               && ( ! Tools::isNullOrEmptyString( Tools::param( 'alertLowSecs' ) ) )
-               && (   Tools::isNumeric( Tools::param( 'alertLowSecs' ) ) )
+    public function validateForUpdate()
+    {
+        return  ((! Tools::isNullOrEmptyString(Tools::param('id')))
+               && (Tools::isNumeric(Tools::param('id')))
+               && (! Tools::isNullOrEmptyString(Tools::param('hostName')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertCritSecs')))
+               && (Tools::isNumeric(Tools::param('alertCritSecs')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertWarnSecs')))
+               && (Tools::isNumeric(Tools::param('alertWarnSecs')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertInfoSecs')))
+               && (Tools::isNumeric(Tools::param('alertInfoSecs')))
+               && (! Tools::isNullOrEmptyString(Tools::param('alertLowSecs')))
+               && (Tools::isNumeric(Tools::param('alertLowSecs')))
                 ) ;
     }
 
@@ -95,148 +98,165 @@ class HostModel extends ModelBase {
      * @param boolean &$targetValue
      * @param boolean $newValue
      */
-    private function _setBooleanAssumeTrue( &$targetValue, $newValue ) {
-        if  ( ( ! isset( $newValue ) )
-           || ( false === $newValue )
-           || ( 0 === $newValue )
-           || ( '0' === $newValue )
+    private function _setBooleanAssumeTrue(&$targetValue, $newValue)
+    {
+        if ((! isset($newValue))
+           || (false === $newValue)
+           || (0 === $newValue)
+           || ('0' === $newValue)
             ) {
-                $targetValue = 0 ;
-            }
-            else {
-                $targetValue = 1 ;
-            }
+            $targetValue = 0 ;
+        } else {
+            $targetValue = 1 ;
+        }
     }
 
     /**
      * Populate model from expected form data.
      */
-    public function populateFromForm() {
-        $this->setHostId( Tools::param( 'id' ) ) ;
-        $this->setHostName( Tools::param( 'hostName' ) ) ;
-        $this->setDescription( Tools::param( 'description' ) ) ;
-        $this->setShouldMonitor( Tools::param( 'shouldMonitor' ) ) ;
-        $this->setShouldBackup( Tools::param( 'shouldBackup' ) ) ;
-        $this->setRevenueImpacting( Tools::param( 'revenueImpacting' ) ) ;
-        $this->setDecommissioned( Tools::param( 'decommissioned' ) ) ;
-        $this->setAlertCritSecs( Tools::param( 'alertCritSecs' ) ) ;
-        $this->setAlertWarnSecs( Tools::param( 'alertWarnSecs' ) ) ;
-        $this->setAlertInfoSecs( Tools::param( 'alertInfoSecs' ) ) ;
-        $this->setAlertLowSecs( Tools::param( 'alertLowSecs' ) ) ;
-        $this->setCreated( Tools::param( 'created' ) ) ;
-        $this->setUpdated( Tools::param( 'updated' ) ) ;
-        $this->setLastAudited( Tools::param( 'lastAudited' ) ) ;
+    public function populateFromForm()
+    {
+        $this->setHostId(Tools::param('id')) ;
+        $this->setHostName(Tools::param('hostName')) ;
+        $this->setDescription(Tools::param('description')) ;
+        $this->setShouldMonitor(Tools::param('shouldMonitor')) ;
+        $this->setShouldBackup(Tools::param('shouldBackup')) ;
+        $this->setRevenueImpacting(Tools::param('revenueImpacting')) ;
+        $this->setDecommissioned(Tools::param('decommissioned')) ;
+        $this->setAlertCritSecs(Tools::param('alertCritSecs')) ;
+        $this->setAlertWarnSecs(Tools::param('alertWarnSecs')) ;
+        $this->setAlertInfoSecs(Tools::param('alertInfoSecs')) ;
+        $this->setAlertLowSecs(Tools::param('alertLowSecs')) ;
+        $this->setCreated(Tools::param('created')) ;
+        $this->setUpdated(Tools::param('updated')) ;
+        $this->setLastAudited(Tools::param('lastAudited')) ;
     }
 
     /**
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->_id ;
     }
 
     /**
      * @param integer $id
      */
-    public function setId( $id ) {
+    public function setId($id)
+    {
         $this->_id = $id ;
     }
 
     /**
      * @return string
      */
-    public function getHostName() {
+    public function getHostName()
+    {
         return $this->_hostName ;
     }
 
     /**
      * @param string $hostName
      */
-    public function setHostName( $hostName ) {
+    public function setHostName($hostName)
+    {
         $this->_hostName = $hostName ;
     }
 
     /**
      * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->_description ;
     }
 
     /**
      * @param string $description
      */
-    public function setDescription( $description ) {
+    public function setDescription($description)
+    {
         $this->_description = $description ;
     }
 
     /**
      * @return boolean
      */
-    public function getShouldMonitor() {
+    public function getShouldMonitor()
+    {
         return $this->_shouldMonitor ;
     }
 
     /**
      * @param string $shouldMonitor
      */
-    public function setShouldMonitor( $shouldMonitor ) {
-        $this->_setBooleanAssumeTrue( $this->_shouldMonitor, $shouldMonitor ) ;
+    public function setShouldMonitor($shouldMonitor)
+    {
+        $this->_setBooleanAssumeTrue($this->_shouldMonitor, $shouldMonitor) ;
     }
 
     /**
      * @return boolean
      */
-    public function getShouldBackup() {
+    public function getShouldBackup()
+    {
         return $this->_shouldBackup ;
     }
     
     /**
      * @param string $shouldBackup
      */
-    public function setShouldBackup( $shouldBackup ) {
-        $this->_setBooleanAssumeTrue( $this->_shouldBackup, $shouldBackup ) ;
+    public function setShouldBackup($shouldBackup)
+    {
+        $this->_setBooleanAssumeTrue($this->_shouldBackup, $shouldBackup) ;
     }
     
     /**
      * @return boolean
      */
-    public function getRevenueImpacting() {
+    public function getRevenueImpacting()
+    {
         return $this->_revenueImpacting ;
     }
     
     /**
      * @param string $revenueImpacting
      */
-    public function setRevenueImpacting( $revenueImpacting ) {
-        $this->_setBooleanAssumeTrue( $this->_revenueImpacting, $revenueImpacting ) ;
+    public function setRevenueImpacting($revenueImpacting)
+    {
+        $this->_setBooleanAssumeTrue($this->_revenueImpacting, $revenueImpacting) ;
     }
     
     /**
      * @return boolean
      */
-    public function getDecommissioned() {
+    public function getDecommissioned()
+    {
         return $this->_decommissioned ;
     }
     
     /**
      * @param string $decommissioned
      */
-    public function setDecommissioned( $decommissioned ) {
-        $this->_setBooleanAssumeTrue( $this->_decommissioned, $decommissioned ) ;
+    public function setDecommissioned($decommissioned)
+    {
+        $this->_setBooleanAssumeTrue($this->_decommissioned, $decommissioned) ;
     }
     
     /**
      * @return int
      */
-    public function getAlertCritSecs() {
+    public function getAlertCritSecs()
+    {
         return $this->_alertCritSecs ;
     }
     
     /**
      * @param int $alertCritSecs
      */
-    public function setAlertCritSecs( $alertCritSecs ) {
+    public function setAlertCritSecs($alertCritSecs)
+    {
         $this->_alertCritSecs = $alertCritSecs ;
     }
     
@@ -251,78 +271,88 @@ class HostModel extends ModelBase {
     /**
      * @param int $alertWarnSecs
      */
-    public function setAlertWarnSecs( $alertWarnSecs ) {
+    public function setAlertWarnSecs($alertWarnSecs)
+    {
         $this->_alertWarnSecs = $alertWarnSecs ;
     }
 
     /**
      * @return int
      */
-    public function getAlertInfoSecs() {
+    public function getAlertInfoSecs()
+    {
         return $this->_alertInfoSecs ;
     }
 
     /**
      * @param int $_alertInfoSecs
      */
-    public function setAlertInfoSecs( $alertInfoSecs ) {
+    public function setAlertInfoSecs($alertInfoSecs)
+    {
         $this->_alertInfoSecs = $alertInfoSecs ;
     }
 
     /**
      * @return int
      */
-    public function getAlertLowSecs() {
+    public function getAlertLowSecs()
+    {
         return $this->_alertLowSecs ;
     }
 
     /**
      * @param int $_alertLowSecs
      */
-    public function setAlertLowSecs( $alertLowSecs ) {
+    public function setAlertLowSecs($alertLowSecs)
+    {
         $this->_alertLowSecs = $alertLowSecs ;
     }
 
     /**
      * @return string
      */
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->_created ;
     }
 
     /**
      * @param string $_created
      */
-    public function setCreated( $created ) {
+    public function setCreated($created)
+    {
         $this->_created = $created ;
     }
 
     /**
      * @return string
      */
-    public function getUpdated() {
+    public function getUpdated()
+    {
         return $this->_updated ;
     }
 
     /**
      * @param string $_updated
      */
-    public function setUpdated( $updated ) {
+    public function setUpdated($updated)
+    {
         $this->_updated = $updated ;
     }
 
     /**
      * @return string
      */
-    public function getLastAudited() {
+    public function getLastAudited()
+    {
         return $this->_lastAudited ;
     }
 
     /**
      * @param string $_lastAudited
      */
-    public function setLastAudited( $lastAudited ) {
+    public function setLastAudited($lastAudited)
+    {
         $this->_lastAudited = $lastAudited ;
     }
-    
 }

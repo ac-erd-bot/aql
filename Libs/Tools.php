@@ -27,15 +27,17 @@ namespace com\kbcmdba\aql ;
 /**
  * A series of static methods for re-use.
 */
-class Tools {
+class Tools
+{
 
     /**
      * Class Constructor - never intended to be used.
      *
      * @throws \Exception
      */
-    public function __construct() {
-        throw new \Exception( "Improper use of Tools class" ) ;
+    public function __construct()
+    {
+        throw new \Exception("Improper use of Tools class") ;
     }
 
     /**
@@ -46,8 +48,9 @@ class Tools {
      * @param String $default
      * @return String
      */
-    public static function param( $key, $default = '' ) {
-        return ( isset( $key ) && ( isset( $_REQUEST[ $key ] ) ) ) ? trim( $_REQUEST[ $key ] ) : $default ;
+    public static function param($key, $default = '')
+    {
+        return (isset($key) && (isset($_REQUEST[ $key ]))) ? trim($_REQUEST[ $key ]) : $default ;
     }
 
     /**
@@ -58,8 +61,9 @@ class Tools {
      * @param array $default
      * @return mixed
      */
-    public static function params( $key, $default = [] ) {
-        return( isset( $key ) && isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default ) ;
+    public static function params($key, $default = [])
+    {
+        return(isset($key) && isset($_REQUEST[ $key ]) ? $_REQUEST[ $key ] : $default) ;
     }
     
     /**
@@ -70,8 +74,9 @@ class Tools {
      * @param String $default
      * @return String
      */
-    public static function post( $key, $default = '' ) {
-        return ( isset( $key ) && ( isset( $_POST[ $key ] ) ) ) ? $_POST[ $key ] : $default ;
+    public static function post($key, $default = '')
+    {
+        return (isset($key) && (isset($_POST[ $key ]))) ? $_POST[ $key ] : $default ;
     }
 
     /**
@@ -82,8 +87,9 @@ class Tools {
      * @param array $default
      * @return mixed
      */
-    public static function posts( $key, $default = [] ) {
-        return( isset( $key ) && isset( $_POST[ $key ] ) ? $_POST[ $key ] : $default ) ;
+    public static function posts($key, $default = [])
+    {
+        return(isset($key) && isset($_POST[ $key ]) ? $_POST[ $key ] : $default) ;
     }
     
     /**
@@ -94,8 +100,9 @@ class Tools {
      * @param string $x
      * @return boolean
      */
-    public static function nonBlankCell( $x ) {
-        return ( ! isset( $x ) || ( $x === '') ) ? "&nbsp;" : $x ;
+    public static function nonBlankCell($x)
+    {
+        return (! isset($x) || ($x === '')) ? "&nbsp;" : $x ;
     }
 
     /**
@@ -104,8 +111,9 @@ class Tools {
      * @param mixed $x
      * @return boolean
      */
-    public static function isNullOrEmptyString( $x ) {
-        return ( ( NULL === $x ) || ( '' === $x ) ) ;
+    public static function isNullOrEmptyString($x)
+    {
+        return ((null === $x) || ('' === $x)) ;
     }
 
     /**
@@ -113,8 +121,9 @@ class Tools {
      *
      * @param boolean $x
      */
-    public static function isNumeric( $x ) {
-        return ( isset( $x ) && preg_match( '/^(-|)[0-9]+$/', $x ) ) ;
+    public static function isNumeric($x)
+    {
+        return (isset($x) && preg_match('/^(-|)[0-9]+$/', $x)) ;
     }
 
     /**
@@ -124,11 +133,12 @@ class Tools {
      * @param int $epochTime Seconds since January 1, 1970 at midnight
      * @return string
      */
-    public static function currentTimestamp( $epochTime = null ) {
-        if ( null === $epochTime ) {
+    public static function currentTimestamp($epochTime = null)
+    {
+        if (null === $epochTime) {
             $epochTime = time() ;
         }
-        return date( 'Y-m-d H:i:s', $epochTime ) ;
+        return date('Y-m-d H:i:s', $epochTime) ;
     }
 
     /**
@@ -139,26 +149,27 @@ conds
      * @param integer $in_seconds
      *            @fixme Comparison to is_integer isn't working as expected.
      */
-    public static function friendlyTime( $in_seconds ) {
-        if ( !isset( $in_seconds ) || ( is_integer( $in_seconds ) ) )
+    public static function friendlyTime($in_seconds)
+    {
+        if (!isset($in_seconds) || (is_integer($in_seconds))) {
             return $in_seconds ;
+        }
         $secs = $in_seconds % 60 ;
-        if ( $in_seconds < 60 )
+        if ($in_seconds < 60) {
             return "${secs}s" ;
-        $mins = ( $in_seconds / 60 ) % 60 ;
-        if ( $in_seconds < 3600 ) {
-            return sprintf( '%dm,%ds', $mins, $secs ) ;
+        }
+        $mins = ($in_seconds / 60) % 60 ;
+        if ($in_seconds < 3600) {
+            return sprintf('%dm,%ds', $mins, $secs) ;
         }
         $hrs = $in_seconds / 3600 ;
-        if ( $hrs < 24 ) {
-            return sprintf( '%dh,%dm,%ds', $hrs, $mins, $secs ) ;
-        }
-        else {
+        if ($hrs < 24) {
+            return sprintf('%dh,%dm,%ds', $hrs, $mins, $secs) ;
+        } else {
             $days = $hrs / 24 ;
             $hrs = $hrs % 24 ;
-            return sprintf( '%dd,%dh,%dm,%ds', $days, $hrs, $mins, $secs ) ;
+            return sprintf('%dd,%dh,%dm,%ds', $days, $hrs, $mins, $secs) ;
         }
-
     } // END OF function friendlyTime( $in_seconds )
 
     /**
@@ -172,8 +183,9 @@ conds
      *            SQL Statement to be made safe
      * @return String Obscured SQL statement
      */
-    public static function makeQuotedStringPIISafe( $str ) {
-        $regexes = array (
+    public static function makeQuotedStringPIISafe($str)
+    {
+        $regexes = [
                         '/\b\d+\b/' => 'N',
                         '/\b0x[0-9A-Fa-f]+\b/' => 'N',
                         "/''/" => "'S'",
@@ -199,19 +211,19 @@ conds
                         '/"[%]+[^"%]+"/' => '"%S"',
                         '/"[^"%]+%"/' => '"S%"',
                         '/"([^"%]+[%]+)+[^"%]+"/' => '"S%S"'
-        ) ;
+        ] ;
 
         $delimPattern = "/('[^']*'|\"[^\"]*\")/" ;
-        $result_array = preg_split( $delimPattern, $str, 0, PREG_SPLIT_DELIM_CAPTURE ) ;
+        $result_array = preg_split($delimPattern, $str, 0, PREG_SPLIT_DELIM_CAPTURE) ;
         $newStr = '' ;
-        while ( count( $result_array ) ) {
-            $currStr = array_shift( $result_array ) ;
+        while (count($result_array)) {
+            $currStr = array_shift($result_array) ;
             $matchFound = 0 ;
-            foreach ( $regexes as $k => $v ) {
-                if ( !$matchFound ) {
+            foreach ($regexes as $k => $v) {
+                if (!$matchFound) {
                     $oldStr = $currStr ;
-                    $currStr = preg_replace( $k, $v, $currStr, -1 ) ;
-                    if ( $currStr !== $oldStr ) {
+                    $currStr = preg_replace($k, $v, $currStr, -1) ;
+                    if ($currStr !== $oldStr) {
                         $matchFound = 1 ;
                     }
                 }
@@ -219,10 +231,7 @@ conds
             $newStr .= $currStr ;
         }
         $str = $newStr ;
-        $str = preg_replace( '/(\s{4,})/', "\n$1", $str, -1 ) ;
+        $str = preg_replace('/(\s{4,})/', "\n$1", $str, -1) ;
         return $str ;
-
     } // END OF function makeQuotedStringPIISafe( $str )
-
 }
-

@@ -54,19 +54,19 @@ class Config
      *
      * @var string
      */
-    private $_baseUrl = NULL;
+    private $_baseUrl = null;
 
-    private $_dbHost = NULL;
+    private $_dbHost = null;
 
-    private $_dbPort = NULL;
+    private $_dbPort = null;
 
-    private $_dbUser = NULL;
+    private $_dbUser = null;
 
-    private $_dbPass = NULL;
+    private $_dbPass = null;
 
-    private $_dbName = NULL;
+    private $_dbName = null;
 
-    private $_timeZone = NULL;
+    private $_timeZone = null;
 
     /**
      * #@-
@@ -77,9 +77,9 @@ class Config
      *
      * @var int
      */
-    private $_minRefresh = NULL;
+    private $_minRefresh = null;
 
-    private $_defaultRefresh = NULL;
+    private $_defaultRefresh = null;
 
     /**
      * #@-
@@ -111,48 +111,48 @@ class Config
             throw new \Exception("Invalid syntax in config.xml!");
         }
         $errors = "";
-        $cfgValues = array(
+        $cfgValues = [
             'minRefresh' => 15,
             'defaultRefresh' => 60
-        );
-        $paramList = array(
-            'dbHost' => array(
+        ];
+        $paramList = [
+            'dbHost' => [
                 'isRequired' => 1,
                 'value' => 0
-            ),
-            'dbPass' => array(
+            ],
+            'dbPass' => [
                 'isRequired' => 1,
                 'value' => 0
-            ),
-            'dbName' => array(
+            ],
+            'dbName' => [
                 'isRequired' => 1,
                 'value' => 0
-            ),
-            'dbPort' => array(
+            ],
+            'dbPort' => [
                 'isRequired' => 1,
                 'value' => 0
-            ),
-            'dbUser' => array(
+            ],
+            'dbUser' => [
                 'isRequired' => 1,
                 'value' => 0
-            ),
-            'baseUrl' => array(
+            ],
+            'baseUrl' => [
                 'isRequired' => 1,
                 'value' => 0
-            ),
-            'timeZone' => array(
+            ],
+            'timeZone' => [
                 'isRequired' => 1,
                 'value' => 0
-            ),
-            'minRefresh' => array(
+            ],
+            'minRefresh' => [
                 'isRequired' => 0,
                 'value' => 0
-            ),
-            'defaultRefresh' => array(
+            ],
+            'defaultRefresh' => [
                 'isRequired' => 0,
                 'value' => 0
-            )
-        );
+            ]
+        ];
         // verify that all the parameters are present and just once.
         foreach ($xml as $v) {
             $key = (string) $v['name'];
