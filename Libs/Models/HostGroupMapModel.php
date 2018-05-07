@@ -21,6 +21,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 /**
  * Host-Group-Map Model
  */
@@ -148,7 +150,7 @@ class HostGroupMapModel extends ModelBase
     }
 
     /**
-     * @return stringupdated
+     * @return string
      */
     public function getLastAudited()
     {

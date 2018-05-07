@@ -21,6 +21,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 /**
  * Model Base class
  */
@@ -29,10 +31,12 @@ abstract class ModelBase
     /**#@+
      * @return boolean
      */
+
     /**
      * Row addition validator
      */
     abstract public function validateForAdd() ;
+
     /**
      * Row update validator
      */

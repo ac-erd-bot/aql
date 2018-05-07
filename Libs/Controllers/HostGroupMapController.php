@@ -21,6 +21,8 @@
  *
  */
 
+namespace com\kbcmdba\aql ;
+
 class HostGroupController extends ControllerBase
 {
 
