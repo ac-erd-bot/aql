@@ -48,12 +48,12 @@ class WebPage
     {
         $this->setPageTitle($title) ;
         $this->setMimeType('text/html') ;
-        $this->setMeta( [ 'Access-Control-Allow-Origin: *'
+        $this->setMeta([ 'Access-Control-Allow-Origin: *'
                         , "Expires: Wed, 21 Feb 2018 00:00:00 GMT"
                         , 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0'
                         , 'Cache-Control: post-check=0, pre-check=0', false
                         , 'Pragma: no-cache'
-                        ] ) ;
+                        ]) ;
         $this->setHead(
             <<<HTML
   <link rel="stylesheet" href="css/main.css" />
