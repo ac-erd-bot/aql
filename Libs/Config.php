@@ -88,16 +88,11 @@ class Config
     /**
      * Class Constructor
      *
-     * @param
-     *            $dbHost
-     * @param
-     *            $dbPort
-     * @param
-     *            $dbName
-     * @param
-     *            $dbUser
-     * @param
-     *            $dbPass
+     * @param string $dbHost
+     * @param string $dbPort
+     * @param string $dbName
+     * @param string $dbUser
+     * @param string $dbPass
      * @throws \Exception
      * @SuppressWarnings indentation
      */
